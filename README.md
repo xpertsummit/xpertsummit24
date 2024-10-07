@@ -12,7 +12,8 @@ El formato del laboratorio consiste en 2 laboratorios diferenciados cuyos datos 
 
 ## Indice de laboratorios a completar
 
-* [FortiGate](./FortiGate): simplificación del Cloud Networking con SDWAN
+* [FortiGate](./FortiGate): simplificación del Cloud Networking con SDWAN y conectores SDN
+* [FortiADC](./FortiADC): balanceo y protección de aplicaciones en entorno hibrido
 * [FortiWeb](./FortiWeb): protección WEB y protección avanzada de APIs
 * [FortiDAST](./FortiDAST): análisis de vulnerabilidades de las aplicaciones
 * [FortiGSLB](./FortiGLSB): balanceo global de aplicaciones (opcional)
@@ -21,9 +22,12 @@ El formato del laboratorio consiste en 2 laboratorios diferenciados cuyos datos 
 
 A continuación se recoge el diagrama general de los laboratorios disponibles para cada usuario:
 
-- Cada usuario dispone de un FortiGate con conexión SDWAN dual HUB, con HUBs desplegados en entorno AWS.
-- Cada usuario dispone de dos aplicaciones desplegadas en AWS publicadas a través de un FortiGate
-- Dicho FortiGate dispone de una VIP para publicar dichas aplicaciones en los puertos 31000 y 31001
+- Un FortiGate con conexión SDWAN dual HUB, con HUBs desplegados en entorno AWS.
+- Un FortiADC desplegado detrás del Fortigate con acceso a Internet a través de este. 
+- Un nodo de Kubernetes con dos aplicaciones desplegadas y accesibles por el Fortigate y el FortiADC. 
+- Dicho FortiGate dispone de una IP publica para publicar dichas aplicaciones en los puertos 31000 y 31001.
+- Acceso a un entorno de FortiWEB cloud para poder dar de alta aplicaciones. 
+- Acceso a un entonrio de FortiGSLB para poder dar de alta nuestras entradas DNS y configurar servicios GSLB. 
 
 
 ## [FortiGate](./FortiGate)
@@ -36,6 +40,17 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 
 <p align="center"><img src="images/image0.png" width="70%" align="center"></p>
 
+## [FortiADC](./FortiADC)
+
+En este laboratorio llevaremos a cabo las siguientes tareas:
+
+- Creación de un pool de servidores usando el conector SDN y el conector de Kuberntes. 
+- Creación de los Virtual Servers de cada una de las aplicaciones.
+- Creación de perfiles WAF de protección de la aplicación. 
+- Entender las nuevas funcionalidades de Adaptative Learning y como FortiADC sugiere protecciones mediante ML. 
+- Publicación de las aplicaciones. 
+
+<p align="center"><img src="images/image0.png" width="70%" align="center"></p>
 
 ## [FortiWeb](./FortiWeb)
 

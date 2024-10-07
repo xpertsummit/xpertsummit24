@@ -15,7 +15,7 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 Se han desplegado una serie de recursos por participante, de cara a facilitar la realización del laboratorio: 
 - 1 x VPC, con un CIDR diferente especifico, además de los Security Groups (SG) y tablas de rutas necesarias. 
 - 1 x fortigate con los interfaces necesarios en cada subnet, sus SG asociados y la configuración SDWAN necesaria para conectar a los HUBs.
-- Una instancia de fortigate y un servidor kubernetes con dos aplicaciones de test desplegadas. 
+- 1 x servidor kubernetes con dos aplicaciones de test desplegadas. 
 
 > [!NOTE]
 > Los detalles de despliegue son diferentes para cada participante.
@@ -132,14 +132,14 @@ Para actualizar el valor del objeto dinámico, puedes hacerlo directamente desde
 
 <p align="center"><img src="images/image1-3-1.png" width="70%" align="center"></p>
 
-Selecciona en el filtro del objeto dinámico el TAG correcto con contenga tu nombre de usuario, que será algo como esto: fgt-fwb-hol-`r1-user-1`-vm-1
+Selecciona en el filtro del objeto dinámico el TAG correcto con contenga tu nombre de usuario, que será algo como esto: xps24-vm-`r1-user-1`
 
 Nota: recuerda que el nombre de usuario depende de la región asignada: 
 ej. r1-user-1 asignado al user 1 en la region west-1
 ej. r2-user-5 asignado al user 5 en la region west-2
 
 ```sh
-Tag.Owner=fgt-fwb-hol-r1-user-1-vm-1
+Tag.Owner=xps24-vm-r1-user-1
 ```
 
 <p align="center"><img src="images/image1-3-2.png" width="70%" align="center"></p>
