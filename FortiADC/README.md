@@ -406,7 +406,7 @@ En el apartado de Monitorización se ejecutó el script trafico.sh, si se paró 
 #### Paso 2. Comprobación de resultados.
 
 ### 2.2 OWASP Top 10 Compliance.
-Esta funcionalidad está relacionada con la visibilidad y el compliance de nuestros servicios balanceados por el FAD y nos proporcionará el grado de cumplimiento que tienen nuestros perfiles WAF frente a las amenazas de OWASP Top 10 y , en caso de no estar lo suficientemente protegido, que políticas aplicar y que cambios en el perfil son necesarios para llegar a alcanzar el nivel de cumplimiento frente a los diferentes ataques de OWASP.
+Esta funcionalidad está relacionada con la visibilidad y el compliance de nuestros servicios balanceados por el FortiADC y nos proporcionará el grado de cumplimiento que tienen nuestros perfiles WAF frente a las amenazas de OWASP Top 10 y , en caso de no estar lo suficientemente protegido, que políticas aplicar y que cambios en el perfil son necesarios para llegar a alcanzar el nivel de cumplimiento frente a los diferentes ataques de OWASP.
 
 #### 2.2.1 Habilitar funcionalidad en FortiADC.
 
@@ -472,12 +472,22 @@ Ir a ***FortiView > OWASP Top 10 Compliance*** y verificar el valor de la column
 
 Hacer doble clic sobre Virtual Server y comprobar como en el apartado de A02:2021-Cryptographic Failures todas las políticas de seguridad están chequeadas en verde y está cubierto al 100%.
 
-### 2.2 IP BAN en FortiGate.
+### 2.3 IP BAN en FortiGate
+Es habitual que los servicios expuestos a internet como aplicaciones públicas sean los primeros en sufrir ataques. Por medio de la integración y configuración que enseñaremos veremos cómo somos capaces de bloquear durante un tiempo definido la IP que atacó a los servicios balanceados por el FortiADC. 
 
-Es habitual que los servicios expuestos a internet como aplicaciones públicas sean los primeros en sufrir ataques. Por medio de la integración y configuración que enseñaremos veremos cómo somos capaces de bloquear durante un tiempo definido la IP que atacó a los servicios balanceados por el FAD. 
+### 2.3.1 Creación de usuario API en FortiGate
+Para que FortiADC pueda indicar al FortiGate que IPs Bannear, es necesario que el FortiADC tenga acceso como administrador de tipo API sobre el FortiGate.
 
-#### 2.2.1 Configuración de acciones
+En el portal del laboratio puedes encontrar la API que hemos cargado en la configuración de bootstrap de tu FortiGate, dentro de la sección ***Acceso a tu Fortigate*** la entrada ***fgt_api_key***, esta API key esta asociada a un perfil de administrador.  
 
+Si prefieres crear tu propia API key para practicar dentro del Fortigate, el proceso de configuración es el siguiente:
+1. Acceder a la IP de tu FortiGate https://<IP_FortiGate>:8443 (puedes encontrar el acceso en el portal del laboratorio)
+2. En el panel lateral acceder a ***System > Administrators*** y hacer clic en ***Create New*** y seleccionar ***REST API Admin***.
+3. Puedes selecciónar como ***Administrator profile*** el profile *api_admin_profile* que ya hemos cargado para el laboratorio o crear el tuyo propio. 
+
+<p align="center"><img src="images/image2-3-1-1.png" width="70%" align="center"></p>
+
+### 2.3.2 Configuración de Action
 Para configurar una nueva *Action* dentro de FortiADC, seleccionar en el panel lateral izquierdo ***Web Application Firewall > WAF Profile*** y la pestaña de ***Action*** y hacer clic en ***Create New***
 
 Configurar los siguientes valores:
@@ -489,8 +499,7 @@ Configurar los siguientes valores:
 
 Hacer clic en Save
 
-#### 2.2.2 Asignación de acciones
-
+### 2.3.3 Asignación de Action
 Vamos a asignar la acción configurada a una amenaza, en este caso al tipo de ataque SQL/XSS Injection. En el panel lateral, ve a ***Web Application Firewall > Common Attacks Detection***, seleccionar la pestaña de SQL/XSS Injection Detection y hacer clic en ***Create New***
 
 Configurar los siguientes valores:
@@ -508,57 +517,20 @@ En el panel lateral ir a ***Web Application Firewall > WAF Profile*** hacer dobl
 Configurar los siguientes valores:
 * SQL/XSS Injection Detection: `XS24_SQL_Policy`
 
-#### 2.2.3 Creación del Automatistmo
-
-
-### 2.3 IP BAN en FortiGate
-Es habitual que los servicios expuestos a internet como aplicaciones públicas sean los primeros en sufrir ataques. Por medio de la integración y configuración que enseñaremos veremos cómo somos capaces de bloquear durante un tiempo definido la IP que atacó a los servicios balanceados por el FAD. 
-
-### 2.3.1 Creación de usuario API en FG
-Para que FAD pueda indicar al FG que IPs Bannear es necesario que el FAD tenga acceso como administrador de tipo API sobre el FG. El proceso de configuración es el siguiente:
-
-1.	Acceder a la IP de FG https://<IP_FG> con las credeciales admin/Forti123.
-2.	En el panel lateral acceder a System > Administrators y hacer clic en Create New y seleccionar REST API Admin.
-3.	
-
-### 2.3.2 Configuración de Action
-1.	En el panel lateral ve a Web Application Firewall > WAF Profile, seleccionar la pestaña de Action y hacer clic en Create New
-2.	Configurar los siguientes valores:
-o	Name: fortigate-bannedIP-100s
-o	Action Type: Period Block
-o	Deny Code: 403
-o	Log status: Enable
-o	Period Block: 100
-3.	Hacer clic en Save
-
-### 2.3.3 Asignación de Action
-Vamos a asignar la acción configurada a una amenaza, en este caso al tipo de ataque SQL/XSS Injection. Para eso realizamos las siguientes tareas:
-
-1.	En el panel lateral ve a Web Application Firewall > Common Attacks Detection, seleccionar la pestaña de SQL/XSS Injection Detection y hacer clic en Create New
-2.	Configurar los siguientes valores:
-o	Name: FX24_SQL_Policy
-o	Habilitar la opción SQL Injection Detection
-o	Dentro del menú que aparecerá de SQL Injection Detection habilitar las opciones de URI Detection, Referer Detection, Cookie Detection, Body Detection.
-o	Action: fortigate-bannedIP-100s
-o	Resto de valores dejarlos por defecto
-3.	Hacer clic en Save
-
-### 2.3.4 Asignación de la política al perfil WAF
-1.	En el panel lateral ir a Web Application Firewall > WAF Profiel hacer doble clic sobre WAF_PF_<Número de Alumno>
-2.	En SQL/XSS Injection Detection seleccionar FX24_SQL_Policy
-3.	Hacer clic en Save
+Hacer clic en Save
 
 ### 2.3.5 Creación del Automatismo
-Vamos a crear ahora la automatización para que la ip maliciosa detectada en el WAF sea bloqueda en el Fortigate. Para ello realizaremos los siguientes pasos:
+Vamos a crear ahora la automatización para que la ip maliciosa detectada en el WAF sea bloqueda en el FortiGate. Para ello realizaremos los siguientes pasos:
 
-1.	En el panel lateral ir a Security Fabric > Automation hacer clic en la pestaña de Action y pulsar sobre Create New.
-2.	Seleccionar FortiGate IP Ban
-3.	Configurar los siguientes valores:
-o	Name: FGT_IPBAN
-o	FortiGate Token: Pegar el token configurado en el apartado anterior.
-o	FortiGate URL: IP del FortiGate
-![image](https://github.com/user-attachments/assets/b952b6ae-c899-414f-bcda-a786cd5be5d1)
+En el panel lateral ir a ***Security Fabric > Automation*** hacer clic en la pestaña de ***Action*** y pulsar sobre ***Create New*** y seleccionar ***FortiGate IP Ban***
 
+Configurar los siguientes valores:
+* Name: FGT_IPBAN
+* FortiGate Token: (usa el token que aparece en el portal del laboratorio o el que has creado en el punto 2.3.1)
+* FortiGate URL: <fgt_api_url> (esta URL la puedes encontrar en el portal del laboratorio)
+
+> [!NOTE]
+> Dado que el FortiADC y el FortiGate tienen conectividad privada, la URL de acceso a la API del FortiGate corresponde a la IP privada del puerto 1, donde hemos habilitado el acceso HTTPS. 
 
 ## Laboratorio completado
-Una vez concluido este laboratorio es hora de Pasar al laboratorio 2: [FortiWeb](http://github.com/fortidemoscloud/fwb-fgslb-hol/tree/main/FortiWeb)
+Una vez concluido este laboratorio es hora de Pasar al laboratorio 2: [FortiWeb](http://github.com/fortidemoscloud/fwb-FortiGateslb-hol/tree/main/FortiWeb)
