@@ -50,7 +50,7 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 - Entender las nuevas funcionalidades de Adaptative Learning y como FortiADC sugiere protecciones mediante ML. 
 - Publicación de las aplicaciones. 
 
-<p align="center"><img src="images/image0.png" width="70%" align="center"></p>
+<p align="center"><img src="images/image1.png" width="70%" align="center"></p>
 
 ## [FortiWeb](./FortiWeb)
 
@@ -63,7 +63,7 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 - Pruebas de carga contra FortiWeb para que aprenda los patrones de tráfico pueda aplicar protección avanzada no basada en firmas, mediante ML
 - Ejercicios de RedTeam para probar la eficacia de la protección
 
-<p align="center"><img src="images/image1.png" width="70%" align="center"></p>
+<p align="center"><img src="images/image2.png" width="70%" align="center"></p>
 
 ## [FortiDAST](./FortiDAST)
 

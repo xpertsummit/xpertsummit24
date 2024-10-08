@@ -397,54 +397,119 @@ Configurar los siguientes valores dentro de la pestaña ***Security***
 
 No olvides guardar.
 
-#### 2.1.4 Test sobre la aplicaicón y comprobación de resultados
+#### 2.1.4 Test sobre la aplicaicón y comprobación de resultados.
 
-#### Paso 1. Generación de tráfico
+#### Paso 1. Generación de tráfico.
 
 En el apartado de Monitorización se ejecutó el script trafico.sh, si se paró es necesario volver a ejecutarlo y en ambos casos tendremos que esperar mínimo 5 minutos generando tráfico antes de continuar.
 
 #### Paso 2. Comprobación de resultados.
 
-### 2.2 OWASP Top 10 Compliance
+### 2.2 OWASP Top 10 Compliance.
 Esta funcionalidad está relacionada con la visibilidad y el compliance de nuestros servicios balanceados por el FAD y nos proporcionará el grado de cumplimiento que tienen nuestros perfiles WAF frente a las amenazas de OWASP Top 10 y , en caso de no estar lo suficientemente protegido, que políticas aplicar y que cambios en el perfil son necesarios para llegar a alcanzar el nivel de cumplimiento frente a los diferentes ataques de OWASP.
 
-### 2.2.1 Habilitar funcionalidad
+#### 2.2.1 Habilitar funcionalidad en FortiADC.
 
-OWASP Top 10 Compliance está disponible desde la versión 7.6 y antes de poder usarla es necesario habilitarla. Para ello, en el panel lateral izquierdo ir a ***System > Settings*** y en la pestaña Basic habilitar OWASP Top 10 Compliance.
+OWASP Top 10 Compliance está disponible desde la versión 7.6 y antes de poder usarla es necesario habilitarla. Para ello, en el panel lateral izquierdo ir a ***System > Settings*** y en la pestaña Basic habilitar OWASP Top 10 Compliance. A partir de ahora, se podrá acceder desde el panel lateral a ***FortiView > OWASP Top 10 Compliance***. 
 
-Esto habilitará la funcionalidad que podrá ser vista accediendo desde el panel lateral a FortiView > OWASP Top 10 Compliance.
+Como se puede observar, por cada *Virtual Server* se establece un grado de cumplimiento de OWASP Top 10 representado en la columna *Compliance Rate*, el valor número reflejado indica en cuantos tipos de amenazas estamos protegidos al 100%. Si se hace doble clic sobre el Virtual Server se obtendrá información detallada del tanto por cien cubierto para cada una de las diferentes amenazas de OWASP Top 10 así como aquellas configuraciones que falta para incrementar la protección.
 
-
-Como se puede observar, por cada Virtual Server se establece un grado de cumplimiento de OWASP Top 10 representado en la columna Compliance Rate, el valor número reflejado indica en cuantos tipos de amenazas estamos protegidos al 100%. Si se hace doble clic sobre el Virtual Server se obtendrá información detallada del tanto por cien cubierto para cada una de las diferentes amenazas de OWASP Top 10 así como aquellas configuraciones que falta para incrementar la protección.
+#### 2.2.2 Configuración de perfiles de Cookie Security y Data Loss Prevention.
 
 A continuación, se detalla la configuración a aplicar sobre el perfil WAF creado en los pasos anteriores para mejorar la protección sobre A02:2021-Cryptographic Failures y como se incrementa el grado de cumplimiento de la aplicación.
 
-Como se puede ver el grado de cumplimiento para esta amenaza es del 60%, y se indica que falta por configurar Cookie Security y Data Loss Prevention, vamos a configurar estos valores para posteriormente ver como incrementamos el perfil de seguridad.
+Como se puede ver el grado de cumplimiento para esta amenaza es del 60%, y se indica que falta por configurar ***Cookie Security y Data Loss Prevention***, vamos a configurar estos valores para posteriormente ver como incrementamos el perfil de seguridad.
 
-1.	En el panel lateral ir a Web Application Firewall > Sensitive Data Protection y en la pestaña de Cookie Security hacer clic en Create New y configurar los siguientes datos:
-o	Name: CS_<Número de Alumno>
-o	Security Mode: Encrypted
-o	El resto de los parámetros dejarlos por defecto y hacer clic en Save, esto habilitará Cookie List hacer clic en Create New
-o	Configurar FX24 en el apartado Name y pulsar Save
-o	Hacer clic en Save
+#### Paso 1. Cookie Security.
 
-2.	En el panel lateral ir a Web Application Firewall > Data Loss Prevention y en la pestaña de DLP Policy hacer clic en Create New y configurar los siguientes datos:
-o	Name: DLP_<Número de Alumno>
-o	Status: Enabled
-o	Action: Alert
-o	Hacer clic sobre Save, eso habilitará la posibilidad de configurar las Rules
-o	En el apartado de Rules hacer clic sobre Create New y configurar los siguiente parámetros.
-1.	Type: Sensitive Data Type
-2.	URL Pattern: /*
-3.	Sensitive Data Type: Credit_Card_Number
-4.	Threshold: 1
-5.	Hacer clic en Save
-o	Hacer clic en Save.
-3.	El siguiente paso es asignar los nuevos elementos de protección a WAF profile. En el panel lateral ir a Web Application Firewall > WAF Profile hacer doble clic sobre WAF_PF_<Número de Alumno>. En Cookie Security seleccionar CS_<Número del Alumno> y en Data Loss Prevention seleccionar DLP_<Número del Alumno>.
+En el panel lateral ir a ***Web Application Firewall > Sensitive Data Protection*** y en la pestaña de Cookie Security hacer clic en ***Create New*** 
 
-Con esta configuración el compliance para A02:2021-Cryptographic Failures debe de estar al 100% y se deberá un valor de 4 sobre 10 para el Virtual Server configurado.
+Configurar los siguientes parámetros:
+* Name: CS
+* Security Mode: Encrypted
 
-Ir a FortiView > OWASP Top 10 Compliance y verificar el valor de la columna Compliance Rate. Hacer doble clic sobre Virtual Server y comprobar como en el apartado de A02:2021-Cryptographic Failures todas las políticas de seguridad están chequeadas en verde y está cubierto al 100%.
+El resto de los parámetros dejarlos por defecto y hacer clic en ***Save***, esto habilitará ***Cookie List*** hacer clic en ***Create New***
+
+Configurar los siguientes parámetros:
+* Name: `XS24`
+
+Hacer clic en ***Save***
+
+#### Paso 2. Data Loss Prevention.
+
+Ahora en el panel lateral izquierdo ir a ***Web Application Firewall > Data Loss Prevention*** y en la pestaña de ***DLP Policy*** hacer clic en ***Create New***
+
+Configurar los siguientes datos:
+* Name: DLP_<Número de Alumno>
+* Status: Enabled
+* Action: Alert
+
+Hacer clic en ***Save***, eso habilitará la posibilidad de configurar las ***Rules***
+
+En el apartado de ***Rules*** hacer clic sobre ***Create New*** 
+
+Configurar los siguiente parámetros:
+* Type: Sensitive Data Type
+* URL Pattern: /*
+* Sensitive Data Type: Credit_Card_Number
+* Threshold: 1
+
+Hacer clic en ***Save*** hasta salir completamente de los menús de configuración. 
+
+#### 2.2.3 Asignación de nuevos elementos al WAF Profile
+
+El siguiente paso es asignar los nuevos elementos de protección a WAF profile. 
+
+En el panel lateral ir a ***Web Application Firewall > WAF Profile*** hacer doble clic sobre `WAF_PROFILE`.
+
+Configurar los siguiente parámetros:
+* Cookie Security: `CS` (este es el perfil que hemos creado en el punto 2.2.2 paso 1) 
+* Data Loss Prevention: `DLP` (este es el perfil que hemos creado en el punto 2.2.2 paso 2) 
+
+Con esta configuración mejoraremos el compliance para *A02:2021-Cryptographic Failures* que debe de estar al 100% y se dará un valor de 4 sobre 10 para el Virtual Server configurado.
+
+Ir a ***FortiView > OWASP Top 10 Compliance*** y verificar el valor de la columna *Compliance Rate*. 
+
+Hacer doble clic sobre Virtual Server y comprobar como en el apartado de A02:2021-Cryptographic Failures todas las políticas de seguridad están chequeadas en verde y está cubierto al 100%.
+
+### 2.2 IP BAN en FortiGate.
+
+Es habitual que los servicios expuestos a internet como aplicaciones públicas sean los primeros en sufrir ataques. Por medio de la integración y configuración que enseñaremos veremos cómo somos capaces de bloquear durante un tiempo definido la IP que atacó a los servicios balanceados por el FAD. 
+
+#### 2.2.1 Configuración de acciones
+
+Para configurar una nueva *Action* dentro de FortiADC, seleccionar en el panel lateral izquierdo ***Web Application Firewall > WAF Profile*** y la pestaña de ***Action*** y hacer clic en ***Create New***
+
+Configurar los siguientes valores:
+* Name: `fgt-bannedIP-100s`
+* Action Type: Period Block
+* Deny Code: 403
+* Log status: Enable
+* Period Block: 100
+
+Hacer clic en Save
+
+#### 2.2.2 Asignación de acciones
+
+Vamos a asignar la acción configurada a una amenaza, en este caso al tipo de ataque SQL/XSS Injection. En el panel lateral, ve a ***Web Application Firewall > Common Attacks Detection***, seleccionar la pestaña de SQL/XSS Injection Detection y hacer clic en ***Create New***
+
+Configurar los siguientes valores:
+* Name: `XS24_SQL_Policy`
+* Habilitar la opción SQL Injection Detection
+* Dentro del menú que aparecerá de SQL Injection Detection habilitar las opciones de URI Detection, Referer Detection, Cookie Detection, Body Detection.
+* Action: `fgt-bannedIP-100s`
+
+Resto de valores dejarlos por defecto y hacer clic en ***Save***
+
+Ahora asignaremos la política al perfil WAF.
+
+En el panel lateral ir a ***Web Application Firewall > WAF Profile*** hacer doble clic sobre `WAF_PROFILE`
+
+Configurar los siguientes valores:
+* SQL/XSS Injection Detection: `XS24_SQL_Policy`
+
+#### 2.2.3 Creación del Automatistmo
+
 
 
 ## Laboratorio completado

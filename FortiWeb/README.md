@@ -3,7 +3,7 @@
 En este laboratorio llevaremos a cabo las siguientes tareas:
 
 - Creación de una nueva aplicación en FortiWeb Cloud con origen la aplicación web (DVWA) desplegada para cada usuario 
-- Creación de una nueva aplicación en FortiWeb Cloud con origen la API (swagger pet store API) desplegada para cada usuario
+- Creación de una nueva aplicación en FortiWeb Cloud con origen la API (swagger pet store API) desplegada para cada usuario (opcional)
 - Añadiremos los perfiles de seguridad necesarios para proteger la aplicación Web y la API publicadas
 - Creación de los FQDN asociados a cada aplicación para apuntar a la entrada de FortiWeb Cloud correspondiente
 - Pruebas de carga contra FortiWeb para que aprenda los patrones de tráfico pueda aplicar protección avanzada no basada en firmas, mediante ML
@@ -262,9 +262,9 @@ Desde los logs de ataques, es posible crear excepciones de una manera sencilla.
 
 Todas las excepciones configuradas se reflejan desde `SECURITY RULES > Known Attacks`. Si el log de la aplicación, al que estamos creando la excepción, tiene asigando un template, estas quedarán reflejadas en dicho template y será donde deberiamos resetearlas para volver para la configuración inicial del mismo.
 
-### 3 Creación de aplicación API (Swagger Pet Store)
+### 3 Creación de aplicación API (Swagger Pet Store) (opcional)
 
-- Comprueba que tu aplicación es accesible desde Internet, puedes encontrar la URL a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > api_url_
+- Comprueba que tu aplicación es accesible desde Internet, puedes encontrar la URL a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > swagger_url_
 
 Para dar de alta la aplicación, seguirás los mismos pasos que en el punto anterior para el portal Web DVWA. 
 
@@ -279,7 +279,7 @@ Cosas que debes tener en cuenta:
 
 - DNS Alias: `user_id`-api (ejemplo: _fortixpert0-api_)
 
-### 3.1. Creación de nuevo CNAME para aplicación DVWA
+### 3.1. Creación de nuevo CNAME para aplicación API
 
 Para facilitar el acceso seguro a la nueva aplicación a través de FortiWeb Cloud, vamos a añadir un nuevo CNAME en la zona DNS reservada para el workshop, que resuelva al FQDN proporciando por FortiWeb Cloud para nuestra aplicación. Para ello vamos a usar FortiGSLB como servidor DNS del dominio hol.fortidemoscloud.com
 
@@ -319,7 +319,7 @@ Para facilitar el acceso seguro a la nueva aplicación a través de FortiWeb Clo
 > [!TIP]
 > Si no has copiado el CNAME que ha generado FortiWeb para la aplicación puedes ir al menú "NETWORK > Endpoints" y recuperarlo.
 
-## 3.2 Entrenamiento del módelo ML de API
+## 3.2 Entrenamiento del módelo ML de API (opcional)
 
 El template de seguridad aplicado para la aplicación API, lleva activada la protección de APIs mediante Machine Learning. Para que el modelo pueda aprender el patrón de tráfico de la aplicación, vamos a forzar cierto tráfico mediante un par de scripts que permiten simular lo que sería un uso normal de la API. Para revisar el template podeis hacerlo desde el menú de la izquierda `GLOBAL > Templates`
 
