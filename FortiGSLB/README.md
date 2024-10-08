@@ -103,13 +103,10 @@ Puedes consultar esta configuraicón desde el menú del izquierda en `GSLB Servi
 dig fortixpert.hol.fortidemoscloud.com
 
 dig @75.2.49.209 fortixpert.hol.fortidemoscloud.com
-``````
+```
 
 ![image5-1.png](images/image5-1.png)
 
 ## Laboratorio completado
-
-# Support
-This a personal repository with goal of testing and demo Fortinet solutions on the Cloud. No support is provided and must be used by your own responsability. Cloud Providers will charge for this deployments, please take it in count before proceed.
-
+Has finalizado con éxito el laboratorio de FortiGSLB
 

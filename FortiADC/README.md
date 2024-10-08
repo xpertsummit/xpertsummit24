@@ -527,10 +527,10 @@ En el panel lateral ir a ***Security Fabric > Automation*** hacer clic en la pes
 Configurar los siguientes valores:
 * Name: FGT_IPBAN
 * FortiGate Token: (usa el token que aparece en el portal del laboratorio o el que has creado en el punto 2.3.1)
-* FortiGate URL: <fgt_api_url> (esta URL la puedes encontrar en el portal del laboratorio)
+* FortiGate URL: `fgt_api_url` (este dato aparece en el portal del laboratorio en la sección de **Acceso a tu FortiGate**)
 
 > [!NOTE]
-> Dado que el FortiADC y el FortiGate tienen conectividad privada, la URL de acceso a la API del FortiGate corresponde a la IP privada del puerto 1, donde hemos habilitado el acceso HTTPS. 
+> Dado que el FortiADC y el FortiGate tienen conectividad privada, la URL de la API del FortiGate corresponde a la IP privada del puerto 1, donde hemos habilitado el acceso HTTPS. 
 
 ## Laboratorio completado
-Una vez concluido este laboratorio es hora de Pasar al laboratorio 2: [FortiWeb](http://github.com/fortidemoscloud/fwb-FortiGateslb-hol/tree/main/FortiWeb)
+Una vez concluido este laboratorio es hora de Pasar al laboratorio 3: [FortiWeb](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiWeb)

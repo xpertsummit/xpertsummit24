@@ -435,6 +435,6 @@ curl -v -X 'POST' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet' -H '
 ```
 
 ## Laboratorio completado
-Una vez concluido este laboratorio es hora de Pasar al laboratorio 3: [FortiDAST](http://github.com/fortidemoscloud/fwb-fgslb-hol/tree/main/FortiDAST)
+Una vez concluido este laboratorio es hora de Pasar al laboratorio 4: [FortiDAST](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiDAST)
 
 

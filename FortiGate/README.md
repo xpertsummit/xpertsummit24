@@ -194,4 +194,4 @@ Se observa como el prefix `10.10.1.0/24` se anuncia con un AS path `65000` desde
 <p align="center"><img src="images/image7-4-1.png" width="70%" align="center"></p>
 
 ## Laboratorio completado
-Una vez concluido este laboratorio es hora de Pasar al laboratorio 2: [FortiWeb](http://github.com/fortidemoscloud/fwb-fgslb-hol/tree/main/FortiWeb)
+Una vez concluido este laboratorio es hora de Pasar al laboratorio 2: [FortiADC](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC)
