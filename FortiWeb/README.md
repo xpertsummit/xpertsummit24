@@ -10,7 +10,6 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 - Ejercicios de RedTeam para probar la eficacia de la protección
 
 ## 1. Conexión al servicio de FortiWeb Cloud
-
 - Para acceder al servicio de FortiWeb Cloud se ha habilitado un acceso IAM donde cada usuario tendrá sus propias credenciales de acceso bajo una cuenta matriz donde se encuentra el servicio
 - El acceso a FortiWeb Cloud puede llevarse a cabo desde la siguiente URL: [FortiWeb Cloud](http://www.fortiweb-cloud.com/)
 - Seleccionamos la opción Login
@@ -27,7 +26,6 @@ En este primer login será necesario validar la cuenta de cada usuario para lo q
 <p align="center"><img src="images/image1-4.png" width="50%" align="center"></p>
 
 ## 2. Creación aplicación portal Web (DVWA)
-
 - Comprueba que tu aplicación es accesible desde Internet. Puedes encontrar la url a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > dvwa_url_
 - La creación de una nueva aplicación en FortiWeb Cloud es bastante sencilla. En este laboratorio realizaremos el alta via GUI en el portal, pero se puede automatizar realizando peticiones a la API del servicio. [FortiWeb Cloud API reference](http://www.fortiweb-cloud.com/apidoc/api.html)
 - En el menú de la izquierda seleccionaremos `Global > Applications`
@@ -49,8 +47,9 @@ En este primer login será necesario validar la cuenta de cada usuario para lo q
     * **Port**: 31000 (Puerto TCP, ejemplo: dvwa_url  = http://15.188.151.180:***31000*** ))
     * **Test Server**: (comprobar conexión al servidor usando HTTP)
 
-> [!TIP]
-Puedes obtener la IP pública de tu aplicación DVWA en los datos de laboratorio, en la parte de _"Acceso a tus aplicaciones > dvwa_url"_
+> [!NOTE]
+> Puedes obtener la IP pública de tu aplicación DVWA en los datos de laboratorio, en la parte de _"Acceso a tus aplicaciones > dvwa_url"_
+> Los puertos de publicación `31000` y `31001` corresponde al acceso a la aplicación directamente a través de tu FortiGate sin pasar por el FortiADC.
 
 <p align="center"><img src="images/image2-3.png" width="70%" align="center"></p>
 

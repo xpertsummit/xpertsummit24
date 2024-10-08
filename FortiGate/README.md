@@ -1,4 +1,4 @@
-## [FortiGate SDWAN](./)
+## [FortiGate Cloud Networking](./)
 @NetDevOps, @SDWAN, @AWS Transit Gateway, @disponibilidad global
 
 En este laboratorio llevaremos a cabo las siguientes tareas:
@@ -6,9 +6,9 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 - Conocer como integrar la tecnología lider SDWAN de Fortinet en un entorno Cloud.
 - Integración con elementos de routing de los Cloud Providers, en este caso AWS Transit Gateway (TGW)
 - Entender las diferentes tablas de rutas a configurar en el AWS TGW para diferenciar tráfico de pre y post inspección por los Fortigates.
-- AWS TGW attachment connect para habilitar routing dinámico BGP entre el cluster de Fortigates y AWS.
+- Uso de AWS TGW attachment connect para habilitar routing dinámico BGP entre el cluster de Fortigates y AWS.
 - Troubleshooting de IPSEC y routing a nivel FortiGate. 
-- Creación de objetos dinámicos basados en metadatos Cloud, como por ejemplo tags.
+- Creación de objetos dinámicos basados en metadatos Cloud, como por ejemplo tags, para usarlos en politicas de firewall. 
 
 ## Resumen puesta en marcha
 
@@ -33,8 +33,8 @@ Se han desplegado una serie de recursos por participante, de cara a facilitar la
 En el portal de formación, introduciendo el email al que has recibido el token del laboratorio, podrás obtener los datos necesarios para completar los pasos siguientes. 
 
 ### 1.0. ¿Cómo acceder al Fortigate?
-- En los datos que aparecen en el portal del laboratorio, al introducir tu email, verás los URL de acceso a la GUI de tu fortigate. ("mgmt_url" = https://<ip_management>:8443) 
-- Al acceder solicitará resetear la contraseña. La contraseña inicial es el ID de la instancia EC2 del fortigate, que puedes consultar desde la consola de AWS o en el output del terraform. 
+- En los datos que aparecen en el portal del laboratorio, al introducir tu email, verás los URL de acceso a la GUI de tu fortigate. (`fgt_mgmt_url`) 
+- Al acceder solicitará resetear la contraseña. La contraseña inicial es el ID de la instancia EC2 del fortigate, que puedes obtener también en el portal del laboratorio. (`fgt_pass`) 
 
 <p align="center"><img src="images/image1-0-1.png" width="70%" align="center"></p>
 
@@ -45,9 +45,14 @@ En el portal de formación, introduciendo el email al que has recibido el token 
 > [!NOTE]
 >  Tendrás que completar una serie de preguntas inicial del wizard de inicio, donde puedes dejar por defecto todas las opciones. 
 
-### 1.1. Comprobación de conectividad a HUB
+### 1.1. Comprobación de conectividad a los HUBs
 
-- Comprobación de la correcta conexión al HUB VPN:
+Para este laboratorio se ha desplegado una topologia compleja de conexión de *dual HUB*, donde se ha simulando uno de los HUBs en un datacenter on-premises, con una configuración de cluster FGCP activo-pasivo. El otro HUB estaría en un Public Cloud, en este caso AWS, formando un cluster FGSP activo-activo con integración via BGP con un AWS Transit Gateway para publicación de rutas al entorno Cloud. 
+
+> [!NOTE]
+> La conexión al HUB desplegado en AWS, que forma un cluster FGSP activo-activo, se ha balanceado usando GSLB contra las IP publicas de cada uno de los nodos. Esta es una opción válida cuando tenemos este tipo de despligue y queremos balancear las conexiones IPSEC contra cada nodo del cluster y que para el Spoke sea transparente. 
+
+- Comprobación de las conexiones a los HUBs VPN:
 
 **Via GUI**
 
@@ -114,9 +119,9 @@ execute ping 10.x.x.138
 execute telnet 10.x.x.138 31000
 diagnose sniffer packet any 'host 10.x.x.138' 4
 ```
-Nota: recuerda que la IP de tu servidor depende de tu rango CIDR asignado: 
-ej. 10.10.1.138 asignado al user 1 en la region west-1
-ej. 10.20.5.138 asignado al user 5 en la region west-2
+Recuerda que la IP de tu servidor depende de tu rango CIDR asignado, en todo caso, puedes encontrar la IP de tu servidor en el portal del laboratorio, en la sección **Servidor de laboratorio**
+ej. 10.10.1.138 asignado al user 1 en la region 1
+ej. 10.20.5.138 asignado al user 5 en la region 2
 
 
 ### 1.3 Comprobar que vuestro usuario ya aparece en la Leader Board del portal
@@ -132,16 +137,11 @@ Para actualizar el valor del objeto dinámico, puedes hacerlo directamente desde
 
 <p align="center"><img src="images/image1-3-1.png" width="70%" align="center"></p>
 
-Selecciona en el filtro del objeto dinámico el TAG correcto con contenga tu nombre de usuario, que será algo como esto: xps24-vm-`r1-user-1`
-
-Nota: recuerda que el nombre de usuario depende de la región asignada: 
-ej. r1-user-1 asignado al user 1 en la region west-1
-ej. r2-user-5 asignado al user 5 en la region west-2
+Selecciona en el filtro del objeto dinámico el TAG correcto con contenga tu nombre de usuario, que será algo como esto: `r1-user-1` y que puedes encontrar en el portal del laboratorio en la sección **Usuario de laboratorio** `aws_user_id`
 
 ```sh
-Tag.Owner=xps24-vm-r1-user-1
+Tag.Owner=r1-user-1
 ```
-
 <p align="center"><img src="images/image1-3-2.png" width="70%" align="center"></p>
 
 En el momento que actualices el objeto con el Tag de Owner de tu usuario, el conector ya resolverá aquellas instancias que tengan asignado dicho Tag. En este laboratorio verás también las IPs asignadas a la instancia de firewall fortigate. Puedes comprobar las IPs que resuelve el objeto dinámico, manteniendo el cursor sobre el objeto dinámcio, aparecerá un menún contextual donde puedes hacer click en `View Matched Address`
@@ -162,6 +162,9 @@ diagnose sniffer packet any 'host 10.x.x.138' 4
 ```
 
 ### 1.4 Publicación de rutas en AWS TGW
+
+> [!NOTE]
+> Para este laboratorio no hemos habilitado el acceso a la consola de AWS, si tienes curiosidad por ver la configuración a nivel de AWS, pregunta a los monitores del curso que te lo podrán mostrar en su consola. 
 
 Llegados a este punto, la conectividad entre el servidor del laboratorio y tu servidor de test se realiza de manera correcta. El servidor de laboratorio está desplegado en una VPC spoke atachada al TGW y aprende la red de vuestro servidor a través de los anuncios BGP que realizan los miembros del cluster de HUB de SDWAN. Esto se consigue con dos TGW attachment connect, uno a cada miembro del cluster, para poder establecer una sesión BGP contra el TGW. De esta forma, mediante routing dinámico el TGW aprende los CIDRs de los spokes SDWAN. 
 

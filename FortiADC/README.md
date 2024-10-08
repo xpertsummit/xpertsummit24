@@ -33,15 +33,13 @@ Se han desplegado una serie de recursos por participante, de cara a facilitar la
 En el portal de formación, introduciendo el email al que has recibido el token del laboratorio, podrás obtener los datos necesarios para completar los pasos siguientes. 
 
 ### 0.0. ¿Cómo acceder a vuestro FortiADC?
-- En los datos que aparecen en el portal del laboratorio, al introducir tu email, verás los URL de acceso a la GUI de tu FortiADC, habiendo completado el laboratorio 1, verás que es la misma IP pública con la que accedes al FortiGate pero con un puerto diferente. ("mgmt_url" = https://<ip_management>:8444) 
+- En los datos que aparecen en el portal del laboratorio, al introducir tu email, verás los URL de acceso a la GUI de tu FortiADC, habiendo completado el laboratorio 1, verás que es la misma IP pública con la que accedes al FortiGate pero con un puerto diferente. (`fad_url` = https://<ip_management>:8444) 
 - El usuario y la password también están detalladas en el portal del laboratorio. En este laboratorio no es necesario resetear la conrtraseña de FortiADC, dado que se ha usado una imagen custom con estos datos preestrablecidos.  
 
 > [!NOTE]
 >  Si realizarais el despliegue usando una imagen de Marketplace de AWS, si sería necesario realizar el reseteo de contraseña, usando el ID de la instancia.
 
-
 ## 1. Publicación de aplicaciones y configuración básica. 
-
 En este primer punto, veremos como dar de alta los servidores que contienen las aplciaciones a publicar, de una forma estática y dinámica mediante conectores. Además aprendreás a publicar las aplicaciones a través de FortiADC y seleccionar los metodos y perfiles de seguridad que queremos aplicar.
 
 ### 1.1. Configuracion de los backend o Real Servers Pools.
@@ -58,7 +56,6 @@ Con estos pasos, tendremos creados los servidores sobre los que balanceareamos l
 #### 1.1.1 Configuración de Real Server y Real Server Pool de manera manual.
 
 #### Paso 1. Real Servers
-
 En el panel lateral, ve a ***Server Load Balance > Real Servers Pool > Real Server*** y haz clic en ***Create New*** para agregar un nuevo servidor.
 
 <p align="center"><img src="images/image1-1-1-1.png" width="70%" align="center"></p>
@@ -78,7 +75,6 @@ Configura los siguientes valores:
 Ahora crearemos el Real Server Pool que incluirá el *Real Server* que acabamos de crear. Añadiremos un Real Server Pool para cada una de las aplicaciones. 
 
 #### Paso 2. Real Server Pools
-
 En el panel lateral, ve a ***Server Load Balance > Real Servers Pool*** y haz clic en ***Create New*** para agregar un nuevo servidor.
 
 Configura los siguientes valores:
@@ -124,11 +120,9 @@ Finalmente, en la sección de *Real Server Pool*, deben aparecer los dos grupos 
 <p align="center"><img src="images/image1-1-1-5.png" width="70%" align="center"></p>
 
 #### 1.1.2 Configuración de Real Server mediante conector externo Kubernetes.
-
 Con esta opción, integramos el FortiADC con el servicio de Kubernetes que aloja todos los servicios gestionados por el grupo responsable de la aplicación, por medio de un External Connector del Security Fabric. De esta forma en el FortiADC sólo se configurará el *Real Server Pool* y el *Virtual Server*. Los *Real Servers* correspondientes al entorno Kubernetes, se descubriran mediante el conector y se configuraran de forma automática al pool de servidores como *Real Servers*, sin que tengamos que configurar estos. De esta forma, el administrador de FortiADC, no tiene preocuparse de la infraestructura de servidores que alojan el cluster de Kubernetes. 
 
 #### Paso 1. Creación del conector al cluster Kubernetes.
-
 En el panel lateral, ve a ***Security Fabric > External Connectors***, haz clic en ***Create New*** y seleccionar el conector de Kubernetes.
 
 <p align="center"><img src="images/image1-1-2-1.png" width="70%" align="center"></p>
@@ -161,7 +155,6 @@ Confirma que el conector aparece en verde tras crearlo:
 Con estos pasos ya estaría configurado el conector que lee la API de nuestro entorno Kubernetes. 
 
 #### Paso 2. Creación del Real Server Pool.
-
 El siguiente paso es crear un nuevo *Real Server Pool* que use este conector para crear de forma dinámica los *Real Severs* sobre los que se va a balancear el tráfico de la aplicación. Dirígete a ***Server Load Balance > Real Server Pool > Real Server Pool*** y haz clic en ***Create New*** para agregar un nuevo servidor.
 
 Configura los siguientes valores:
@@ -193,11 +186,9 @@ Configura los siguientes valores:
 Vuelve a comprobar que los *Real Severs* correspondientes a este servicio se han creado correctamente y en el puerto correcto, en este caso el `31001`.
 
 #### 1.1.3 Configuración de Real Server mediante conector externo AWS.
-
 Con esta opción, integraremos el FortiADC con el servicio de Amazon Web Services (AWS) que aloja  los servicios gestionados por el grupo responsable de la aplicación por medio de un External Connector del Security Fabric. De esta forma en el FortiADC sólo se configurará el *Real Server Pool* y el *Virtual Server*. Los *Real Servers* correspondientes al entorno Cloud de AWS, se descubriran mediante el conector y se configuraran de forma automática al pool de servidores como *Real Servers*, sin que tengamos que configurar estos. De esta forma, el administrador de FortiADC, no tiene preocuparse de la infraestructura de servidores que alojan el backend de la aplicación. 
 
 #### Paso 1. Creación del conector cloud AWS.
-
 En el panel lateral, ve a ***Security Fabric > External Connectors***, haz clic en ***Create New*** y seleccionar el conector de AWS.
 
 <p align="center"><img src="images/image1-1-3-1.png" width="70%" align="center"></p>
@@ -217,7 +208,6 @@ Dado que a tu instancia de FortiADC en AWS, le hemos asociado un [IAM Intance pr
 <p align="center"><img src="images/image1-1-3-3.png" width="70%" align="center"></p>
 
 #### Paso 2. Creación del Real Server Pool.
-
 El siguiente paso es crear un nuevo *Real Server Pool* que use este conector para crear de forma dinámica los *Real Severs* sobre los que se va a balancear el tráfico de la aplicación. Dirígete a ***Server Load Balance > Real Server Pool > Real Server Pool*** y haz clic en ***Create New*** para agregar un nuevo servidor.
 
 Configura los siguientes valores:
@@ -255,13 +245,11 @@ Configura los siguientes valores:
 <p align="center"><img src="images/image1-1-3-6.png" width="70%" align="center"></p>
 
 ### 1.2 Configuracion del Virtual Sever (VS). 
-
 En el apartado anterior, hemos visto como dar de alta los grupos de servidores sobre los que FortiADC enviará el tráfico de aplicación en función de diferentes parámetros, para este laboratorio simplemente por disponibildiad. En un escenario real o de producción, se podrán escoger los criterios de balanceo que se consideren oportunos. [Metodos de balanceo en FortiADC](https://docs.fortinet.com/index.php/document/fortiadc/7.4.4/handbook/201314/configuring-load-balancing-lb-methods)
 
 Ahora vamos a configurar el *Virtual Sever* que escuchará el tráfico de la aplicación y enviará el tráfico al backend o *Real Server Pool* correspondiente. 
 
 #### 1.2.1 Configuración de un pool de IP para Source NAT
-
 Dado que estamos en un entorno donde el tráfico se envia por defecto al FortiGate y no al FortiADC, necesitamos hacer un Source NAT del tráfico procedente del FortiADC para que el servidor responda de forma correcta las peticiones de este. 
 
 Para configurar la IP que nuestro FortiADC usará para enviar las peticiones, nos iremos a la sección ***Virtual Sever > NAT Source Pool*** y clicaremos en ***Create New***
@@ -283,7 +271,6 @@ Configura los siguientes valores:
 
 
 #### 1.2.2 Configuración de un Virtual Server (VS)
-
 Una vez configurado el pool de servidores que comparten un mismo servicio es necesario crear un *Virtual Server* como punto de entrada público al servicio. El servidor virtual recibirá el tráfico y lo distribuirá entre los servidores backend.
 
 Nos iremos a la sección ***Server Load Balance > Virtual Server*** y en la pestaña ***Virtual Server*** cliclamos en ***Crate New*** con ***Advnaced Mode***
@@ -323,7 +310,6 @@ Comprueba que tienes acceso la aplicación DVWA a través del FortiADC, los dato
 >  Opcionalmente puedes crear también el VS para la aplicación API, repitiendo los pasos anteriores pero publicando en el puerto `31011`. 
 
 #### 1.2.3 Monitorización de un Virtual Server (VS)
-
 Si has completado los pasos 1.1.1 y 1.1.2 correctamente, podrás chequear el estado de salud del nuevo VS que acabas de crear. 
 
 Nos iremos a la sección ***FortiView > Logical Topology*** y en el tab ***Server Load Balancer*** veremos la topologia con el detalle del puerto de escucha del servicio, el backend sobre el que se balancea el tráfico y el estado de salud de los servidores de backend.  
@@ -347,13 +333,11 @@ Selecciona la opción SLB HTTP del desplegable, haz clic en el icono de la últi
 ## 2. Configuraciones avanzadas y nuevas funcionalidades de FortiADC.
 
 ### 2.1 Adative Learning (AL)
-
 El Adaptive Learning es una funcionalidad avanzada que permite al FortiADC aprender y adaptarse automáticamente a los patrones de tráfico y comportamiento de las aplicaciones web que gestiona. Esta característica utiliza análisis basados en inteligencia artificial para identificar de manera continua qué es "normal" para una aplicación en particular y ajusta las políticas de seguridad en consecuencia. Esto permite que FortiADC proporcione protección optimizada sin una intervención manual constante.
 
 En este laboratorio aprenderemos a configurar y gestionar políticas de AL sobre los VS anteriormente creados.
 
 #### 2.1.1 Configuración de política de AL.
-
 Para configurar una nueva política de AL, seleccióna en el panel lateral izquierdo ***Web Application Firewall > Adaptive Learning*** y haz clic en ***Create New*** para agregar una nueva política.
 	
 Configura los siguientes valores:
@@ -377,30 +361,27 @@ Al guardar nos dejará configurar el apartdo de *URL List*, donde crearemos una 
 No olvides guardar.
 
 #### 2.1.2 Configuración del perfil de WAF. 
-
-Las politicas de *Adaptative Learning (AD)* se asocian a perfiles de WAF que aplicaremos a las aplicaciones publicadas. Por lo que tendremos que crear un nuevo perfil de WAF que tenga asociada la política de AD que hemos creado en el paso anterior 1.3.1
+Las politicas de *Adaptative Learning (AD)* se asocian a perfiles de WAF que aplicaremos a las aplicaciones publicadas. Por lo que tendremos que crear un nuevo perfil de WAF que tenga asociada la política de AD que hemos creado en el paso anterior [2.1.1](#211-configuración-de-política-de-al) 
 
 Para crear un nuevo profile de WAF, ve al panel lateral izquierdo ***Web Application Firewall > WAF Profile*** y dentro de la pestaña de ***WAF Profile*** haz clic en ***Create New***
 
 Configurar los siguientes valores:
-* Name: WAF_PROFILE
+* Name: `WAF_PROFILE`
 * Adaptive Learning: AL (aquí aparecerá la política creada en el paso 1.3.1)
 
 Tras salvar y crear el nuevo profile, ya lo tendremos disponible para aplicar al Virtual Server. 
 
 #### 2.1.3 Asignación del perfil de WAF a Virtual Server.
-
-A continuación, asignaremos el perfil WAF a un Virtual Server. En el panel lateral izquierdo, ve a ***Server Load Balance > Virtual Server*** y haz doble clic sobre `VS_DVWA` para editar el VS que hemos creado en el punto 1.2.2.
+A continuación, asignaremos el perfil WAF a un Virtual Server. En el panel lateral izquierdo, ve a ***Server Load Balance > Virtual Server*** y haz doble clic sobre `VS_DVWA` para editar el VS que hemos creado en el punto [1.2.2](#122-configuración-de-un-virtual-server-vs)
 
 Configurar los siguientes valores dentro de la pestaña ***Security***
-* WAF Profile: `WAF_PROFILE` (este es el profile de WAF que hemos generado en el punto 1.3.2)
+* WAF Profile: `WAF_PROFILE` (este es el profile de WAF que hemos generado en el punto [2.1.2](#212-configuración-del-perfil-de-waf))
 
 No olvides guardar.
 
 #### 2.1.4 Test sobre la aplicaicón y comprobación de resultados.
 
 #### Paso 1. Generación de tráfico.
-
 En el apartado de Monitorización se ejecutó el script trafico.sh, si se paró es necesario volver a ejecutarlo y en ambos casos tendremos que esperar mínimo 5 minutos generando tráfico antes de continuar.
 
 #### Paso 2. Comprobación de resultados.
@@ -409,19 +390,16 @@ En el apartado de Monitorización se ejecutó el script trafico.sh, si se paró 
 Esta funcionalidad está relacionada con la visibilidad y el compliance de nuestros servicios balanceados por el FortiADC y nos proporcionará el grado de cumplimiento que tienen nuestros perfiles WAF frente a las amenazas de OWASP Top 10 y , en caso de no estar lo suficientemente protegido, que políticas aplicar y que cambios en el perfil son necesarios para llegar a alcanzar el nivel de cumplimiento frente a los diferentes ataques de OWASP.
 
 #### 2.2.1 Habilitar funcionalidad en FortiADC.
-
 OWASP Top 10 Compliance está disponible desde la versión 7.6 y antes de poder usarla es necesario habilitarla. Para ello, en el panel lateral izquierdo ir a ***System > Settings*** y en la pestaña Basic habilitar OWASP Top 10 Compliance. A partir de ahora, se podrá acceder desde el panel lateral a ***FortiView > OWASP Top 10 Compliance***. 
 
 Como se puede observar, por cada *Virtual Server* se establece un grado de cumplimiento de OWASP Top 10 representado en la columna *Compliance Rate*, el valor número reflejado indica en cuantos tipos de amenazas estamos protegidos al 100%. Si se hace doble clic sobre el Virtual Server se obtendrá información detallada del tanto por cien cubierto para cada una de las diferentes amenazas de OWASP Top 10 así como aquellas configuraciones que falta para incrementar la protección.
 
 #### 2.2.2 Configuración de perfiles de Cookie Security y Data Loss Prevention.
-
 A continuación, se detalla la configuración a aplicar sobre el perfil WAF creado en los pasos anteriores para mejorar la protección sobre A02:2021-Cryptographic Failures y como se incrementa el grado de cumplimiento de la aplicación.
 
 Como se puede ver el grado de cumplimiento para esta amenaza es del 60%, y se indica que falta por configurar ***Cookie Security y Data Loss Prevention***, vamos a configurar estos valores para posteriormente ver como incrementamos el perfil de seguridad.
 
 #### Paso 1. Cookie Security.
-
 En el panel lateral ir a ***Web Application Firewall > Sensitive Data Protection*** y en la pestaña de Cookie Security hacer clic en ***Create New*** 
 
 Configurar los siguientes parámetros:
@@ -436,11 +414,10 @@ Configurar los siguientes parámetros:
 Hacer clic en ***Save***
 
 #### Paso 2. Data Loss Prevention.
-
 Ahora en el panel lateral izquierdo ir a ***Web Application Firewall > Data Loss Prevention*** y en la pestaña de ***DLP Policy*** hacer clic en ***Create New***
 
 Configurar los siguientes datos:
-* Name: DLP_<Número de Alumno>
+* Name: `DLP`
 * Status: Enabled
 * Action: Alert
 
@@ -457,14 +434,13 @@ Configurar los siguiente parámetros:
 Hacer clic en ***Save*** hasta salir completamente de los menús de configuración. 
 
 #### 2.2.3 Asignación de nuevos elementos al WAF Profile
-
 El siguiente paso es asignar los nuevos elementos de protección a WAF profile. 
 
 En el panel lateral ir a ***Web Application Firewall > WAF Profile*** hacer doble clic sobre `WAF_PROFILE`.
 
 Configurar los siguiente parámetros:
-* Cookie Security: `CS` (este es el perfil que hemos creado en el punto 2.2.2 paso 1) 
-* Data Loss Prevention: `DLP` (este es el perfil que hemos creado en el punto 2.2.2 paso 2) 
+* Cookie Security: `CS` (este es el perfil que hemos creado en el punto [2.2.2 paso 1](#paso-1-cookie-security)) 
+* Data Loss Prevention: `DLP` (este es el perfil que hemos creado en el punto [2.2.2 paso 2](#paso-2-data-loss-prevention)) 
 
 Con esta configuración mejoraremos el compliance para *A02:2021-Cryptographic Failures* que debe de estar al 100% y se dará un valor de 4 sobre 10 para el Virtual Server configurado.
 
@@ -497,15 +473,15 @@ Configurar los siguientes valores:
 * Log status: Enable
 * Period Block: 100
 
-Hacer clic en Save
+Hacer clic en ***Save***
 
 ### 2.3.3 Asignación de Action
 Vamos a asignar la acción configurada a una amenaza, en este caso al tipo de ataque SQL/XSS Injection. En el panel lateral, ve a ***Web Application Firewall > Common Attacks Detection***, seleccionar la pestaña de SQL/XSS Injection Detection y hacer clic en ***Create New***
 
 Configurar los siguientes valores:
 * Name: `XS24_SQL_Policy`
-* Habilitar la opción SQL Injection Detection
-* Dentro del menú que aparecerá de SQL Injection Detection habilitar las opciones de URI Detection, Referer Detection, Cookie Detection, Body Detection.
+* Habilitar la opción ***SQL Injection Detection***
+* Dentro del menú que aparecerá de *SQL Injection Detection* habilitar las opciones de *URI Detection, Referer Detection, Cookie Detection, Body Detection*.
 * Action: `fgt-bannedIP-100s`
 
 Resto de valores dejarlos por defecto y hacer clic en ***Save***
@@ -517,7 +493,7 @@ En el panel lateral ir a ***Web Application Firewall > WAF Profile*** hacer dobl
 Configurar los siguientes valores:
 * SQL/XSS Injection Detection: `XS24_SQL_Policy`
 
-Hacer clic en Save
+Hacer clic en ***Save***
 
 ### 2.3.5 Creación del Automatismo
 Vamos a crear ahora la automatización para que la ip maliciosa detectada en el WAF sea bloqueda en el FortiGate. Para ello realizaremos los siguientes pasos:
@@ -526,11 +502,14 @@ En el panel lateral ir a ***Security Fabric > Automation*** hacer clic en la pes
 
 Configurar los siguientes valores:
 * Name: FGT_IPBAN
-* FortiGate Token: (usa el token que aparece en el portal del laboratorio o el que has creado en el punto 2.3.1)
+* FortiGate Token: (usa el token que aparece en el portal del laboratorio o el que has creado en el punto [2.3.1](#231-creación-de-usuario-api-en-fortigate))
 * FortiGate URL: `fgt_api_url` (este dato aparece en el portal del laboratorio en la sección de **Acceso a tu FortiGate**)
 
 > [!NOTE]
 > Dado que el FortiADC y el FortiGate tienen conectividad privada, la URL de la API del FortiGate corresponde a la IP privada del puerto 1, donde hemos habilitado el acceso HTTPS. 
+
+### 2.3.6 Comprobación de baneo de IP
+Lanza un ataque de inyección de SQL sobre la URL de tu aplicación y comprueba a nivel de FortiGate como tu IP publica se establece como "IP Banned".
 
 ## Laboratorio completado
 Una vez concluido este laboratorio es hora de Pasar al laboratorio 3: [FortiWeb](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiWeb)
