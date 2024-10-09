@@ -1,4 +1,4 @@
-## [FortiWeb Cloud](./)
+# [FortiWeb Cloud](./)
 
 En este laboratorio llevaremos a cabo las siguientes tareas:
 
@@ -21,9 +21,13 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 <p align="center"><img src="images/image1-2.png" width="50%" align="center"></p>
 <p align="center"><img src="images/image1-3.png" width="60%" align="center"></p>
 
-En este primer login será necesario validar la cuenta de cada usuario para lo que se debe facilitar un token que se envía a la cuenta de correo del usuario. Para consultar dicho token se debe acceder al correo electrónico del usuario en el servidor https://mail.fortidemoscloud.com con las mismas credenciales de acceso que se han facilitado en el portal de inicio (###user_id###@fortidemoscloud.com)
+Para un login inicial es necesario validar la cuenta de cada usuario para lo que se debe facilitar un token que se envía a la cuenta de correo del usuario. Cuando la cuenta de correo ya está validada, enviará directamente el token de acceso a la cuenta y lo solicitará. Para consultar dicho token se debe acceder al correo electrónico del usuario en el servidor https://mail.fortidemoscloud.com con las mismas credenciales de acceso que se han facilitado en el portal de inicio (###user_id###@fortidemoscloud.com)
 
+Solicitud de validación inicial:
 <p align="center"><img src="images/image1-4.png" width="50%" align="center"></p>
+
+Solicitud de token si la cuenta ya está validada:
+<p align="center"><img src="images/image1-5.png" width="50%" align="center"></p>
 
 ## 2. Creación aplicación portal Web (DVWA)
 - Comprueba que tu aplicación es accesible desde Internet. Puedes encontrar la url a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > dvwa_url_

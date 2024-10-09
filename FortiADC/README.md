@@ -1,4 +1,4 @@
-## [FortiADC](./)
+# [FortiADC](./)
 @NetDevOps, @Kubernetes, @WAF @disponibilidad global
 
 FortiADC (Fortinet Application Delivery Controller) es la solución de Fortinet para balanceo, optimización y seguridad de aplicaciones. Publicar un servicio a través de FortiADC asegura alta disponibilidad, rendimiento mejorado y protección contra amenazas. 
@@ -310,7 +310,7 @@ Comprueba que tienes acceso la aplicación DVWA a través del FortiADC, los dato
 >  Opcionalmente puedes crear también el VS para la aplicación API, repitiendo los pasos anteriores pero publicando en el puerto `31011`. 
 
 #### 1.2.3 Monitorización de un Virtual Server (VS)
-Si has completado los pasos 1.1.1 y 1.1.2 correctamente, podrás chequear el estado de salud del nuevo VS que acabas de crear. 
+Si has completado los pasos [1.1.1](#111-configuración-de-real-server-y-real-server-pool-de-manera-manual) y [1.1.2](#112-configuración-de-real-server-mediante-conector-externo-kubernetes) correctamente, podrás chequear el estado de salud del nuevo VS que acabas de crear. 
 
 Nos iremos a la sección ***FortiView > Logical Topology*** y en el tab ***Server Load Balancer*** veremos la topologia con el detalle del puerto de escucha del servicio, el backend sobre el que se balancea el tráfico y el estado de salud de los servidores de backend.  
 
@@ -318,9 +318,24 @@ Nos iremos a la sección ***FortiView > Logical Topology*** y en el tab ***Serve
 
 Otra sección interesante para monitorizar la aplicación dentro de ***FortiView*** y la experiencia de los usuarios de la misma, es ***FortiView > Virtual Server***. Aquí vamos a poder encontrar un listado con todas nuestras aplicaciones y datos interesantes para su análisis. 
 
-También es posible revisar los logs de tráfico de la aplicación desde ***Log & Report > Taffic Log*** y realizar los filtrados que consideremos oportunos, por ejemplo: 
+Para obtener un mayor detalle a nivel de logs, es posible configurar los niveles de logeo y tipo que queremos registrar, para ello, en el paner izquierdo ve a ***Log & Report > Log Setting*** y en la pestaña ***Local Log*** activa los siguiente:
+* Event: (enable)
+* Event Category: (activa el check *Enable All*)
+* Securty: (enable)
+* Security Category: (activa el check *Enable All*)
 
-Selecciona la opción SLB HTTP del desplegable, haz clic en el icono de la última columna e identifica los siguientes valores:
+#### Generación de tráfico contra la aplicación
+Para generar tráfico random contra la aplicación y empezar a tener logs en el FortiADC, hemos prepardo un script que puedes lanzar para generar este tráfico, [user_traffic.sh](./scripts/user_traffic.sh). (Si copias el script en tu PC mac o linux deberas darle permisos de ejecución antes de ejecutarlo) 
+
+1. chmod + x ./user_traffic.sh
+2. ./user_traffic.sh `<fortiadc_ip_publica>` `<puerto>`
+
+> [!NOTE]
+> Sino te es posible ejecutar el script en tu PC no te preocupes y sigue con los siguentes pasos, desde el laboratorio estamos lanzando tráfico contra vuestras aplicaciones, por lo que deben aparecer logs en el momento en que la aplicación sea accesible. 
+
+Ahora podrás revisar los logs de tráfico de la aplicación desde ***Log & Report > Taffic Log*** y realizar los filtrados que consideremos oportunos. (Recuerda generar tráfico contra la aplicación para que se registren logs contra la misma)
+
+A modo de ejemplo, selecciona la opción SLB HTTP del desplegable, haz clic en el icono de la última columna e identifica los siguientes valores:
 * IP y puerto del cliente
 * IP y puerto de destino del servicio
 * Método empleado
@@ -328,7 +343,6 @@ Selecciona la opción SLB HTTP del desplegable, haz clic en el icono de la últi
 * Virtual Server al que se está realizando la consulta.
 * Real server que está gestionando el tráfico
 * Código de respuesta
-
 
 ## 2. Configuraciones avanzadas y nuevas funcionalidades de FortiADC.
 
@@ -353,7 +367,7 @@ No olvides guardar.
 > [!NOTE]
 > False Positive Threshold: es el umbral a partir del cual los eventos activados deben considerarse falsos positivos, es decir, si recibimos una infracción de X número de diferentes fuentes, siendo X el valor configurado durante el Least Learning Time, se reconocerá ese evento como un falso positivo y la recomendación será la de desactivar esa firma.
 
-Al guardar nos dejará configurar el apartdo de *URL List*, donde crearemos una nueva URL asociada a la política de AL, clicamos en ***Create New** y configuramos los siguientes valores:
+Al guardar nos dejará configurar el apartdo de ***URL List***, donde crearemos una nueva URL asociada a la política de AL, clicamos en ***Create New** y configuramos los siguientes valores:
 * Host Status: (enable)
 * Host: <ip_publica_servicio:puerto_aplicacion> (la IP pública y el puerto corresponde al acceso a través de FortiADC en el portal del curso `ip_publica:31010`) 
 * URL: /* (aplica a todos los paths disponibles) 
@@ -382,7 +396,7 @@ No olvides guardar.
 #### 2.1.4 Test sobre la aplicaicón y comprobación de resultados.
 
 #### Paso 1. Generación de tráfico.
-En el apartado de Monitorización se ejecutó el script trafico.sh, si se paró es necesario volver a ejecutarlo y en ambos casos tendremos que esperar mínimo 5 minutos generando tráfico antes de continuar.
+En el apartado de Monitorización, punto [1.2.3](#123-monitorización-de-un-virtual-server-vs) se ejecutó el script *user_traffic.sh* para generar tráfico random sobre la aplicación, puedes volver a ejecutarlo y esperar al menos 5 minutos antes de continuar.
 
 #### Paso 2. Comprobación de resultados.
 
@@ -442,11 +456,11 @@ Configurar los siguiente parámetros:
 * Cookie Security: `CS` (este es el perfil que hemos creado en el punto [2.2.2 paso 1](#paso-1-cookie-security)) 
 * Data Loss Prevention: `DLP` (este es el perfil que hemos creado en el punto [2.2.2 paso 2](#paso-2-data-loss-prevention)) 
 
-Con esta configuración mejoraremos el compliance para *A02:2021-Cryptographic Failures* que debe de estar al 100% y se dará un valor de 4 sobre 10 para el Virtual Server configurado.
-
 Ir a ***FortiView > OWASP Top 10 Compliance*** y verificar el valor de la columna *Compliance Rate*. 
 
-Hacer doble clic sobre Virtual Server y comprobar como en el apartado de A02:2021-Cryptographic Failures todas las políticas de seguridad están chequeadas en verde y está cubierto al 100%.
+Con esta configuración mejoraremos el compliance para *A02:2021-Cryptographic Failures* al 100% y se dará un valor de 4 sobre 10 para el Virtual Server configurado. Para ello debemos esperar a que el *Adaptive Learning* termine de crear las recomendaciones sobre nuestra aplicación y aplicar las mismas.  
+
+Una vez aplicadas las recomendaciones del *Adaptive Learning, Cookie Security y Data Loss Prevention* como hemos visto, si volvemos al Virtual Server, podremos comprobar como en el apartado de A02:2021-Cryptographic Failures todas las políticas de seguridad están chequeadas en verde y está cubierto al 100%.
 
 ### 2.3 IP BAN en FortiGate
 Es habitual que los servicios expuestos a internet como aplicaciones públicas sean los primeros en sufrir ataques. Por medio de la integración y configuración que enseñaremos veremos cómo somos capaces de bloquear durante un tiempo definido la IP que atacó a los servicios balanceados por el FortiADC. 

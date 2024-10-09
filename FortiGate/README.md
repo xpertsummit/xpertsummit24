@@ -1,4 +1,4 @@
-## [FortiGate Cloud Networking](./)
+# [FortiGate Cloud Networking](./)
 @NetDevOps, @SDWAN, @AWS Transit Gateway, @disponibilidad global
 
 En este laboratorio llevaremos a cabo las siguientes tareas:
@@ -189,12 +189,18 @@ Se observa como el prefix `10.10.1.0/24` se anuncia con un AS path `65000` desde
 > Si quisieramos un balanceo de tráfico, usando la compatibilidad ECMP del TGW, no modificariamos los anuncios contra este. En estos escenrios, se puede dar routing asimétrico y debemos configurarar los Fortigates para poder manejar este tipo de tráfico.
 
 ### 1.5 Tráfico entre spokes SDWAN
-
 - Conforme el resto de compañeros vayan desplegando sus Fortigates, se irán uniendo la red SDWAN, por lo que vuestro spoke irá aprendiendo nuevas rutas contra las redes que anuncian. (Red iBGP con HUB haciendo de Route Reflector)
 - Comprobar la conectividad mediante ADVPN a las redes de los compañeros. Pregunta a algún compañero la IP de sus servidor interno e intenta hacer ping desde el Fortigate o desde vuestro servidor de laboratorio. (Ej. Puedes hacer ping a la IP del servidor de test del usuario 2 de la region 2 -> 10.20.2.138)
 - Comprobar que se levanta un nuevo túnel de forma dinámica. 
 
-<p align="center"><img src="images/image7-4-1.png" width="70%" align="center"></p>
+<p align="center"><img src="images/image1-5-1.png" width="70%" align="center"></p>
+
+### 1.6 Configuración de los HUBs
+Si quieres revisar la configuración de los HUBs, HUB CPD "on-premises" cluster FGCP y el cloud con el cluster Activo-Activo FGSP y la conexiones entre los mismos, configuraciones BGP, vxlan entre cluster cloud y on-premises, integración con AWS TGW mediante attachment connect y túneles GRE, politicas de firewall ... puedes acceder a los mismo en modo lectura. 
+
+Puedes encontrar los datos de acceso en el portal del laboratorio, en la sección final **Acceso lectura a HUB A-A cloud y HUB OnPrem**
+
+Si necesitas alguna aclaración o tienes alguna duda, no dudas en levantar la mano.  
 
 ## Laboratorio completado
 Una vez concluido este laboratorio es hora de Pasar al laboratorio 2: [FortiADC](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC)
