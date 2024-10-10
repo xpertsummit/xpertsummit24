@@ -40,7 +40,7 @@ Solicitud de token si la cuenta ya está validada:
 - Wizard step 1: Nombre de aplicación y dominio
 
     * **Web Application Name**: `user_id`-dvwa (Usuario FortiCloud asignado, ejemplo: fortixpert0-dvwa) - este valor no es más que un identificador dentro del portal para organizar las diferentes aplicaciones
-    * **Domain Name**: `user_id`-dvwa.hol.fortidemoscloud.com (ejemplo: fortixpert0-dvwa.hol.fortidemoscloud.com) - este valor es el que va a determinar que FQDN va a tener nuestra aplicación y que posteriormente a nivel DNS redirigiremos a FortiWeb Cloud
+    * **Domain Name**: `user_id`-dvwa.fortidemoscloud.com (ejemplo: fortixpert0-dvwa.fortidemoscloud.com) - este valor es el que va a determinar que FQDN va a tener nuestra aplicación y que posteriormente a nivel DNS redirigiremos a FortiWeb Cloud
 
 <p align="center"><img src="images/image2-2.png" width="70%" align="center"></p>
 
@@ -92,44 +92,24 @@ Copiar el nuevo FQDN para utilizar en el siguiente punto donde modificaremos los
 
 ### 2.1. Creación de nuevo CNAME para aplicación DVWA
 
-Para facilitar el acceso seguro a la nueva aplicación a través de FortiWeb Cloud, vamos a añadir un nuevo CNAME en la zona DNS reservada para el workshop, que resuelva al FQDN proporciando por FortiWeb Cloud para nuestra aplicación. Para ello vamos a usar FortiGSLB como servidor DNS del dominio hol.fortidemoscloud.com
+Para facilitar el acceso seguro a la nueva aplicación a través de FortiWeb Cloud, vamos a añadir un nuevo CNAME en la zona DNS reservada para el workshop, que resuelva al FQDN proporciando por FortiWeb Cloud para nuestra aplicación. 
 
-- Con el mismo IAM user con el que hemos accedido a FortiWeb Cloud es posible acceder al servicio SaaS de FortiGSLB en la url [FortiGSLB](http://www.fortigslb.com/)
+Para simplicar este proceso, desde el portal hemos añadido una función para crear las entradas DNS de manera automatizada. 
 
-- Selecciona la organización HoL.
+> [!WARNING]
+> Si no has copiado el CNAME del endpoint que ha generado FortiWeb para la aplicación, puedes ir al menú "NETWORK > Endpoints" y recuperarlo.
 
-<p align="center"><img src="images/image2-9.png" width="80%" align="center"></p>
-
-- Selecciona "DNS Services" en el menú de la izquierda, donde aparecen las zonas DNS relacionadas con esta organización.
-
-<p align="center"><img src="images/image2-10.png" width="50%" align="center"></p>
-
-- Selecciona la entrada "HoL" y editala para añadir una nueva entrada, bóton lapiz que encontrarás a la derecha. 
-
-<p align="center"><img src="images/image2-11.png" width="70%" align="center"></p>
-
-- En la parte inferior de la entrada, tras los parámetros de definición de la misma, encontrarás el menú para crear un nuevo registro de tipo CNAME. 
-
-<p align="center"><img src="images/image2-12.png" width="70%" align="center"></p>
-
-- La entrada CNAME corresponde al FQDN que has obtenido al dar de alta la aplicación en FortiWeb Cloud.
+- Ve al portal del curso e introduce los campos necesarios para crear una nueva entrada DNS:
   
-    * Alias: `user_id`-dvwa (ejemplo: fortixpert0-dvwa)
-    * Target: `<FortiWeb Cloud FQDN>` (ejemplo: fortixpert0-dvwa.hol.fortidemoscloud.com.P911111111.fortiwebcloud.net.)
+    * new_record: `user_id`-dvwa (ejemplo: fortixpert1-dvwa)
+    * fwb_endpoint: `<FortiWeb Cloud FQDN>` (ejemplo: fortixpert1-dvwa.fortidemoscloud.comP911111111.fortiwebcloud.net)
 
-<p align="center"><img src="images/image2-13.png" width="50%" align="center"></p>
+- Al darle a crear el resultado debe ser algo como esto:
 
-> [!WARNING]
-> Es importante que incluyas un "." al final de la entrada de Target
+<p align="center"><img src="images/image2-1-1.png" width="50%" align="center"></p>
 
-> [!WARNING]
-> Es un entorno compartido, por favor no modifiques nada que no sea lo indicado en la guía o podrás afectar al resto de usuarios
-
-- Una vez creada la entrada, ya puedes comprobar como la resolución de la nueva entrada _(ejemplo: fortixpert0-dvwa.hol.fortidemoscloud.com)_, apunta al FQDN de la aplicación creada en FortiWeb Cloud.
-- En este punto podrás comprobar al acceder a la aplicación a través de HTTPS como FortiWeb ha desplegado el certificado requerido para securizar la comunicación con la aplicación. Inicialmente se instala un certificado propio de FortiWeb y en cuestión de minutos se podrá comprobar como se despliega el certificado de Let's Encrypt de forma automatizada
-
-> [!TIP]
-> Si no has copiado el CNAME que ha generado FortiWeb para la aplicación puedes ir al menú "NETWORK > Endpoints" y recuperarlo.
+- Una vez creada la entrada, ya puedes comprobar como la resolución de la nueva entrada _(ejemplo: fortixpert1-dvwa.fortidemoscloud.com)_, apunta al FQDN de la aplicación creada en FortiWeb Cloud.
+- En este punto podrás comprobar al acceder a la aplicación a través de HTTPS como FortiWeb ha desplegado el certificado requerido para securizar la comunicación con la aplicación. Inicialmente se instala un certificado propio de FortiWeb y en cuestión de minutos se podrá comprobar como se despliega el certificado de Let's Encrypt de forma automatizada.
 
 ## 2.2. Red Team sobre Aplicación Web
 
@@ -139,7 +119,7 @@ En este punto vamos a validar el correcto funcionamiento de los mecanismos de se
 
 Los ataques de inyección ocurren cuando un atacante envía ataques simples basados en texto que explotan la sintaxis del intérprete objetivo. Casi cualquier fuente de datos puede ser un vector de inyección, como variables de entorno, parámetros, servicios web externos e internos, y todo tipo de usuarios. Las fallas de inyección ocurren cuando una aplicación envía datos no confiables a un intérprete. Las fallas de inyección son muy comunes, especialmente en código heredado. A menudo se encuentran en consultas SQL, LDAP, Xpath o NoSQL; comandos del sistema operativo; analizadores XML, encabezados SMTP, argumentos de programa, etc. Las fallas de inyección son fáciles de descubrir al examinar el código, pero más difíciles de descubrir mediante pruebas. Los escáneres y los fuzzers pueden ayudar a los atacantes a encontrar fallas de inyección. La inyección puede provocar pérdida o corrupción de datos, falta de responsabilidad o denegación de acceso. La inyección a veces puede llevar a la toma completa del host. [OWASP A03_2021-Injection] (https://owasp.org/Top10/A03_2021-Injection/)
 
-Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos anteriores: _fortixpert#-dvwa.hol.fortidemoscloud.com_
+Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos anteriores: _fortixpert#-dvwa.fortidemoscloud.com_
 
 > [!NOTE]
 > Si es la primera vez que accedes al portal: Username: "root" (con password en blanco) y selecciona la opción Create / Reset Database
@@ -156,7 +136,7 @@ En primer lugar vamos a desactivar la seguridad de nuestro FortiWeb Cloud para p
 
 DVWA tiene un módulo simple utilizado para demostrar ataques de inyección SQL que espera valores de _user-id_ como enteros (por ejemplo, 1, 2, 3). La aplicación mostrará información sobre el usuario asociado con un user-id dado. En el siguiente ejercicio, inyectaremos comandos SQL para acceder a las contraseñas asociadas con los nombres de usuario.
 
-Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en los pasos anteriores: _fortixpert#-dvwa.hol.fortidemoscloud.com_
+Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en los pasos anteriores: _fortixpert#-dvwa.fortidemoscloud.com_
 
 Selecciona nivel de seguridad bajo para evitar que la propia aplicación aplique controles de seguridad sobre los comandos que vamos a ejecutar
 
@@ -184,7 +164,7 @@ Recuerda desactivar la seguridad de nuestro FortiWeb Cloud para permitir que se 
 
 DVWA tiene un módulo simple utilizado para demostrar ataques de inyección de comandos que espera que un usuario introduzca una dirección IP. La aplicación luego enviará un ping a la dirección IP proporcionada. En el siguiente ejercicio, inyectaremos comandos además de la dirección IP que espera el módulo.
 
-Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos anteriores: _fortixpert#-dvwa.hol.fortidemoscloud.com_
+Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos anteriores: _fortixpert#-dvwa.fortidemoscloud.com_
 
 - Selecciona la opción Command Injection en el menú lateral
 - Introduce el siguiente texto que va a permitir ejecutar un comando "pwd" y obtener información sobre el direcotrio donde esta la aplicación desplegada: `4.2.2.2; pwd`
@@ -220,7 +200,7 @@ Los ataques XSS a menudo se dividen en tres tipos: XSS Persistente: donde la cad
 
 Recuerda desactivar la seguridad de nuestro FortiWeb Cloud para permitir que se lleven a cabo los ataques de este punto.
 
-Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos anteriores: _fortixpert#-dvwa.hol.fortidemoscloud.com_
+Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos anteriores: _fortixpert#-dvwa.fortidemoscloud.com_
 
 - Haz clic en la pestaña XSS (Reflejado) a la izquierda para lanzar el módulo.
 - Introduce un texto, ejemplo "john", para probar la funcionalidad del módulo.
@@ -265,18 +245,21 @@ Desde los logs de ataques, es posible crear excepciones de una manera sencilla.
 
 Todas las excepciones configuradas se reflejan desde `SECURITY RULES > Known Attacks`. Si el log de la aplicación, al que estamos creando la excepción, tiene asigando un template, estas quedarán reflejadas en dicho template y será donde deberiamos resetearlas para volver para la configuración inicial del mismo.
 
-### 3 Creación de aplicación API (Swagger Pet Store) (opcional)
+### 3 Creación de aplicación API (Swagger Pet Store) (OPCIONAL)
+
+> [!NOTE]
+> El alta de la aplicación de API es opcional para este laboratorio.
 
 - Comprueba que tu aplicación es accesible desde Internet, puedes encontrar la URL a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > swagger_url_
 
 Para dar de alta la aplicación, seguirás los mismos pasos que en el punto anterior para el portal Web DVWA. 
 
-***Repetir los mismos pasos que en el punto 2.1 con las variaciones indicadas a continuación***
+***Repetir los mismos pasos que en el [punto 2](#2-creación-aplicación-portal-web-dvwa) con las variaciones indicadas a continuación***
 
 Cosas que debes tener en cuenta:
 
 - Web Application Name: `user_id`-api (Usuario FortiCloud asignado, ejemplo: _fortixpert0-api_)
-- Domain Name: `user_id`-api.hol.fortidemoscloud.com (ejemplo: _fortixpert0-api.hol.fortidemoscloud.com_)
+- Domain Name: `user_id`-api.fortidemoscloud.com (ejemplo: _fortixpert0-api.fortidemoscloud.com_)
 
 - Template de protección a aplicar en FortiWeb Cloud: ***api-hol-template***
 
@@ -284,45 +267,24 @@ Cosas que debes tener en cuenta:
 
 ### 3.1. Creación de nuevo CNAME para aplicación API
 
-Para facilitar el acceso seguro a la nueva aplicación a través de FortiWeb Cloud, vamos a añadir un nuevo CNAME en la zona DNS reservada para el workshop, que resuelva al FQDN proporciando por FortiWeb Cloud para nuestra aplicación. Para ello vamos a usar FortiGSLB como servidor DNS del dominio hol.fortidemoscloud.com
+Puedes repetir los pasos en el [punto 2.1](#21-creación-de-nuevo-cname-para-aplicación-dvwa)
 
-- Con el mismo IAM user con el que hemos accedido a FortiWeb Cloud es posible acceder al servicio SaaS de FortiGSLB en la url [FortiGSLB](http://www.fortigslb.com/)
-- Selecciona la organización HoL.
+> [!WARNING]
+> Si no has copiado el CNAME del endpoint que ha generado FortiWeb para la aplicación, puedes ir al menú "NETWORK > Endpoints" y recuperarlo.
 
-<p align="center"><img src="images/image2-9.png" width="80%"></p>
-
-- Selecciona "DNS Services" en el menú de la izquierda, donde aparecen las zonas DNS relacionadas con esta organización.
-
-<p align="center"><img src="images/image2-10.png" width="50%"></p>
-
-- Selecciona la entrada "HoL" y editala para añadir una nueva entrada, bóton lapiz que encontrarás a la derecha. 
-
-![image2-11.png](images/image2-11.png)
-
-- En la parte inferior de la entrada, tras los parámetros de definición de la misma, encontrarás el menú para crear un nuevo registro de tipo CNAME. 
-
-![image2-12.png](images/image2-12.png)
-
-- La entrada CNAME corresponde al FQDN que has obtenido al dar de alta la aplicación en FortiWeb Cloud.
+- Ve al portal del curso e introduce los campos necesarios para crear una nueva entrada DNS:
   
-    * Alias: `user_id`-api (ejemplo: fortixpert0-api)
-    * Target: `<FortiWeb Cloud FQDN>` (ejemplo: fortixpert0-api.hol.fortidemoscloud.com.P911111111.fortiwebcloud.net.)
+    * new_record: `user_id`-api (ejemplo: fortixpert1-api)
+    * fwb_endpoint: `<FortiWeb Cloud FQDN>` (ejemplo: fortixpert1-api.fortidemoscloud.comP911111111.fortiwebcloud.net)
 
-<p align="center"><img src="images/image2-13.png" width="50%"></p>
+- Al darle a crear el resultado debe ser algo como esto:
 
-> [!WARNING]
-> Es importante que incluyas un "." al final de la entrada de Target
+<p align="center"><img src="images/image3-1-1.png" width="50%" align="center"></p>
 
-> [!WARNING]
-> Es un entorno compartido, por favor no modifiques nada que no sea lo indicado en la guía o podrás afectar al resto de usuarios
+- Una vez creada la entrada, ya puedes comprobar como la resolución de la nueva entrada _(ejemplo: fortixpert1-api.fortidemoscloud.com)_, apunta al FQDN de la aplicación creada en FortiWeb Cloud.
+- En este punto podrás comprobar al acceder a la aplicación a través de HTTPS como FortiWeb ha desplegado el certificado requerido para securizar la comunicación con la aplicación. Inicialmente se instala un certificado propio de FortiWeb y en cuestión de minutos se podrá comprobar como se despliega el certificado de Let's Encrypt de forma automatizada.
 
-- Una vez creada la entrada, ya puedes comprobar como la resolución de la nueva entrada _(ejemplo: fortixpert0-api.hol.fortidemoscloud.com)_, apunta al FQDN de la aplicación creada en FortiWeb Cloud.
-- En este punto podrás comprobar al acceder a la aplicación a través de HTTPS como FortiWeb ha desplegado el certificado requerido para securizar la comunicación con la aplicación. Inicialmente se instala un certificado propio de FortiWeb y en cuestión de minutos se podrá comprobar como se despliega el certificado de Let's Encrypt de forma automatizada
-
-> [!TIP]
-> Si no has copiado el CNAME que ha generado FortiWeb para la aplicación puedes ir al menú "NETWORK > Endpoints" y recuperarlo.
-
-## 3.2 Entrenamiento del módelo ML de API (opcional)
+## 3.2 Entrenamiento del módelo ML de API
 
 El template de seguridad aplicado para la aplicación API, lleva activada la protección de APIs mediante Machine Learning. Para que el modelo pueda aprender el patrón de tráfico de la aplicación, vamos a forzar cierto tráfico mediante un par de scripts que permiten simular lo que sería un uso normal de la API. Para revisar el template podeis hacerlo desde el menú de la izquierda `GLOBAL > Templates`
 
@@ -341,7 +303,7 @@ Seleccionar el template `api-hol-template` y revisar los profile de seguridad ap
 chmod +x fwb_training_get.sh
 chmod +x fwb_training_post.sh
 ```
-- Ejecutar los scripts: (debes introducir la URL de tu aplicación API en formato correcto, ejemplo: https://fortixpert0-api.hol.fortidemoscloud.com)
+- Ejecutar los scripts: (debes introducir la URL de tu aplicación API en formato correcto, ejemplo: https://fortixpert0-api.fortidemoscloud.com)
 ```sh
 ./fwb_training_get.sh <URL de la API> 
 ```
@@ -392,7 +354,7 @@ En el punto 3.2.3, se ha modificado el comportamiento de protección frente a ll
 - "status" JSON parameter is missing in the JSON request and is blocked by FortiWeb-Cloud. The expected result is a Request query validation failed status.
 
 ```sh
-curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findByStatus?' -H 'Accept: application/json' -H 'Content-Type: application/json'
+curl -v -X 'GET' 'https://fortixpert0-api.fortidemoscloud.com/api/pet/findByStatus?' -H 'Accept: application/json' -H 'Content-Type: application/json'
 ```
 
 ### 3.2.4.2 URL Query Parameter Long
@@ -400,7 +362,7 @@ curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findBy
 - "status" URL query parameter is too long. The expected result, JSON parameter length violation.
 
 ```sh
-curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findByStatus?status=ABCDEFGHIJKL' -H 'Accept: application/json' -H 'Content-Type: application/json'
+curl -v -X 'GET' 'https://fortixpert0-api.fortidemoscloud.com/api/pet/findByStatus?status=ABCDEFGHIJKL' -H 'Accept: application/json' -H 'Content-Type: application/json'
 ```
 
 ### 3.2.4.3 URL Query Parameter Short
@@ -408,7 +370,7 @@ curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findBy
 - "status" URL query parameter is too short. The expected result is a parameter violation.
 
 ```sh
-curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findByStatus?status=A' -H 'Accept: application/json' -H 'Content-Type: application/json'
+curl -v -X 'GET' 'https://fortixpert0-api.fortidemoscloud.com/api/pet/findByStatus?status=A' -H 'Accept: application/json' -H 'Content-Type: application/json'
 ```
 
 ### 3.2.4.4 Cross Site Script in URL
@@ -416,7 +378,7 @@ curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findBy
 - "status" URL query parameter will carry a Command Injection attack. The expected result is a known signature violation.
     
 ```sh
-curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findByStatus?status=<script>alert(123)</script>'  -H 'Accept: application/json' -H 'Content-Type: application/json'
+curl -v -X 'GET' 'https://fortixpert0-api.fortidemoscloud.com/api/pet/findByStatus?status=<script>alert(123)</script>'  -H 'Accept: application/json' -H 'Content-Type: application/json'
 ```
 
 ### 3.2.4.5 Cross Site Script in Body
@@ -424,7 +386,7 @@ curl -v -X 'GET' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet/findBy
 - "status" JSON body will carry an XSS attack. The expected result, the attack is being blocked by Machine Learning.
 
 ```sh
-curl -v -X 'POST' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet' -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"id": 111, "category": {"id": 111, "name": "Camel"}, "name": "FortiCamel", "photoUrls": ["WillUpdateLater"], "tags": [ {"id": 111, "name": "FortiCamel"}], "status": "<script>alert(123)</script>"}'
+curl -v -X 'POST' 'https://fortixpert0-api.fortidemoscloud.com/api/pet' -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"id": 111, "category": {"id": 111, "name": "Camel"}, "name": "FortiCamel", "photoUrls": ["WillUpdateLater"], "tags": [ {"id": 111, "name": "FortiCamel"}], "status": "<script>alert(123)</script>"}'
 ```
 
 ### 3.2.4.6 Zero Day Attacks
@@ -434,7 +396,7 @@ We will now use some sample Zero Day Attacks.
 - Cross Site Script in the Body
 
 ```sh
-curl -v -X 'POST' 'https://fortixpert0-api.hol.fortidemoscloud.com/api/pet' -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"id": 111, "category": {"id": 111, "name": "Camel"}, "name": "javascript:qxss(X160135492Y1_1Z);", "photoUrls": ["WillUpdateLater"], "tags": [ {"id": 111, "name": "FortiCamel"}], "status": "available”}
+curl -v -X 'POST' 'https://fortixpert0-api.fortidemoscloud.com/api/pet' -H 'accept: application/json' -H 'Content-Type: application/json' -d '{"id": 111, "category": {"id": 111, "name": "Camel"}, "name": "javascript:qxss(X160135492Y1_1Z);", "photoUrls": ["WillUpdateLater"], "tags": [ {"id": 111, "name": "FortiCamel"}], "status": "available”}
 ```
 
 ## Laboratorio completado

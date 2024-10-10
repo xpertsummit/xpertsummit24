@@ -16,8 +16,8 @@ NUM_CALLS=300
 # Function to check if the input matches the pattern
 check_input_pattern() {
     local URL="$1"
-    local pattern1="fortixpert[1-9]\-api\.hol\.fortidemoscloud\.com"
-    local pattern2="fortixpert[1-9][0-9]\-api\.hol\.fortidemoscloud\.com"
+    local pattern1="fortixpert[1-9]\-api\.fortidemoscloud\.com"
+    local pattern2="fortixpert[1-9][0-9]\-api\.fortidemoscloud\.com"
     if [[ ! $URL =~ $pattern1 ]]; then
       if  [[ ! $URL =~ $pattern2 ]]; then
         echo "la URL no cumple con el formato correcto."

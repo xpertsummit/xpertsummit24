@@ -16,7 +16,6 @@ El formato del laboratorio consiste en 2 laboratorios diferenciados cuyos datos 
 * [FortiADC](./FortiADC): balanceo y protección de aplicaciones en entorno hibrido
 * [FortiWeb](./FortiWeb): protección WEB y protección avanzada de APIs
 * [FortiDAST](./FortiDAST): análisis de vulnerabilidades de las aplicaciones
-* [FortiGSLB](./FortiGLSB): balanceo global de aplicaciones (opcional)
 
 ## Diagrama general de los laboratorios
 
@@ -72,12 +71,6 @@ En este laboratorio llevaremos a cabo las siguientes tareas:
 - Integración de FortiWeb Cloud con el servicio de análisis de vulnerabilidades de FortiDAST
 - Lanzamiento de escaneo sobre las aplicaciones desplegadas para identificar potenciales riesgos de las aplicaciones
 - Análisis de los resultados de los escaneos
-
-## [FortiGSLB](./FortiGSLB)
-
-En este laboratorio llevaremos a cabo las siguientes tareas:
-- Dar de alta nuestra aplicación como server del servicio GSLB.
-- Añadir nueevo virtual server al servicio GSLB ya configurado en FortiGSLB.
 
 ## Support
 This a personal repository with goal of testing and demo Fortinet solutions on the Cloud. No support is provided and must be used by your own responsability. Cloud Providers will charge for this deployments, please take it in count before proceed.

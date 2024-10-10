@@ -70,4 +70,4 @@ El escaneo llevará unos minutos, puedes aprovechar ese momento para ir familiar
 - Con esto concluye este laboratorio de FortiDAST y con él la parte del workshop dedicada a Seguridad para aplicaciones web y API
 
 ## Laboratorio completado
-Una vez concluido este laboratorio es hora de Pasar al laboratorio 4: [FortiGSLB](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiGSLB)
+Laboratorio completado. 

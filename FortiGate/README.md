@@ -129,7 +129,7 @@ ej. 10.20.5.138 asignado al user 5 en la region 2
 > [!NOTE]
 > Vuestro usuario todavía no aparecerá en el Leader Board llegados a este punto, aunque has sido capaz de realizar un troubleshooting de conectividad IPSEC, todavía falta realizar una configuración adicional para permitir la conectividad entre el servidor del laboratio y vuestro servidor. Esto es debido, a que se ha configurado una regla de firewall permitiendo el tráfico contra un destino que hace referencia a un objeto dinámico, apuntando a un tag de tu servidor, pero, NO está configurado correctamente. 
 
-Ve a la sección de politicas de seguridad `Policy & Objects` > `Firewal Policy`, desde allí verás una regla configurada con un signo de alerta indicando el problema. (Te recomiendo la vista `Interface Pair View` que puedes activar en la parte derecha).
+Ve a la sección de politicas de seguridad `Policy & Objects` > `Firewal Policy`, aquí podrás encontrar un par de políticas que usan un objeto dinámico. (Te recomiendo la vista `Interface Pair View` que puedes activar en la parte derecha).
 
 <p align="center"><img src="images/image1-3-0.png" width="70%" align="center"></p>
 
