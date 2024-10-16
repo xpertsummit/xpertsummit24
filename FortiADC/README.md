@@ -45,7 +45,7 @@ En este primer punto, veremos como dar de alta los servidores que contienen las 
 ### 1.1. Configuración de los backend o Real Servers Pools.
 Para la configuración del backend de la aplicación a publicar, o Real Server Pool, sobre el que se configuran los Virtual Servers, tenemos diferentes opciones, ya que podemos realizarlo de manera manual dando de alta las IPs de los servidores o automatizarlo usando los `External Connectors`. 
 
-En este laboratio veremos 3 formas diferentes de realizarlo:
+En este laboratorio veremos 3 formas diferentes de realizarlo:
 
 - [1.1.1](#111-configuración-de-real-server-y-real-server-pool-de-manera-manual) Configuración de Real Server Pool de manera manual.
 - [1.1.2](#112-configuración-de-real-server-mediante-conector-externo-kubernetes) Configuración de Real Server Pools con connector de AWS. 
