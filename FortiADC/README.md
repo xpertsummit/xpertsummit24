@@ -42,16 +42,19 @@ En el portal de formación, introduciendo el email al que has recibido el token 
 ## 1. Publicación de aplicaciones y configuración básica. 
 En este primer punto, veremos como dar de alta los servidores que contienen las aplciaciones a publicar, de una forma estática y dinámica mediante conectores. Además aprendreás a publicar las aplicaciones a través de FortiADC y seleccionar los metodos y perfiles de seguridad que queremos aplicar.
 
-### 1.1. Configuracion de los backend o Real Servers Pools.
-Para la configuración del backend de la aplicación a publicar, o Real Server Pool, sobre el que se configurarn los Virtual Servers, tenemos diferentes opciones, ya que podemos realizarlo de manera manual dando de alta las IPs de los servidores o automatizarlo usando los `External Connectors`. 
+### 1.1. Configuración de los backend o Real Servers Pools.
+Para la configuración del backend de la aplicación a publicar, o Real Server Pool, sobre el que se configuran los Virtual Servers, tenemos diferentes opciones, ya que podemos realizarlo de manera manual dando de alta las IPs de los servidores o automatizarlo usando los `External Connectors`. 
 
 En este laboratio veremos 3 formas diferentes de realizarlo:
 
-- 1.1.1 Configuración de Real Server Pool de manera manual.
-- 1.1.2 Configuración de Real Server Pools con connector de AWS. 
-- 1.1.3 Configuración de Real Server Pools con connector de Kubernetes. 
+- [1.1.1](#111-configuración-de-real-server-y-real-server-pool-de-manera-manual) Configuración de Real Server Pool de manera manual.
+- [1.1.2](#112-configuración-de-real-server-mediante-conector-externo-kubernetes) Configuración de Real Server Pools con connector de AWS. 
+- [1.1.3](#113-configuración-de-real-server-mediante-conector-externo-aws) Configuración de Real Server Pools con connector de Kubernetes. 
 
 Con estos pasos, tendremos creados los servidores sobre los que balanceareamos los servicios que publiquemos en el FortiADC. Con la opción manual, los servidores siempre serán los mismos, en cambio con el conector, FortiADC podrá balancear el tráfico sobre los servidores que estén desplegados en cada momento, por ejemplo, dentro de un grupo de autoescalado de AWS.  
+
+> [!NOTE]
+> Puedes optar por uno de los metodos de configuración o realizar los tres si te ves con ganas. 
 
 #### 1.1.1 Configuración de Real Server y Real Server Pool de manera manual.
 
@@ -510,20 +513,60 @@ Configurar los siguientes valores:
 Hacer clic en ***Save***
 
 ### 2.3.5 Creación del Automatismo
-Vamos a crear ahora la automatización para que la ip maliciosa detectada en el WAF sea bloqueda en el FortiGate. Para ello realizaremos los siguientes pasos:
 
+Vamos a crear ahora la automatización para que la IP maliciosa detectada en el WAF sea bloqueda en el FortiGate. Para ello realizaremos los siguientes pasos:
+
+#### Paso 1. Configuración de la acción.
 En el panel lateral ir a ***Security Fabric > Automation*** hacer clic en la pestaña de ***Action*** y pulsar sobre ***Create New*** y seleccionar ***FortiGate IP Ban***
 
+<p align="center"><img src="images/image2-3-5-1.png" width="70%" align="center"></p>
+
 Configurar los siguientes valores:
-* Name: FGT_IPBAN
+* Name: `FGT_IPBAN`
 * FortiGate Token: (usa el token que aparece en el portal del laboratorio o el que has creado en el punto [2.3.1](#231-creación-de-usuario-api-en-fortigate))
 * FortiGate URL: `fgt_api_url` (este dato aparece en el portal del laboratorio en la sección de **Acceso a tu FortiGate**)
+
+<p align="center"><img src="images/image2-3-5-2.png" width="70%" align="center"></p>
 
 > [!NOTE]
 > Dado que el FortiADC y el FortiGate tienen conectividad privada, la URL de la API del FortiGate corresponde a la IP privada del puerto 1, donde hemos habilitado el acceso HTTPS. 
 
+#### Paso 2. Configuración del Stitch.
+En el panel lateral ir a ***Security Fabric > Automation*** hacer clic en la pestaña de ***Stitch*** y pulsar sobre ***Create New***
+
+<p align="center"><img src="images/image2-3-5-3.png" width="70%" align="center"></p>
+
+Configurar los siguientes valores:
+* Name: `FGT_IPBAN`
+
+Ahora añadiremos el trigger:
+* `Add Trigger`: seleccionar ***Period Block IP*** y darle a ***Ok***
+
+<p align="center"><img src="images/image2-3-5-4.png" width="70%" align="center"></p>
+
+Ahora añadiremos la acción:
+* `Add Action`: seleccionar ***Fortigate IP Ban*** y darle a ***Ok***
+
+<p align="center"><img src="images/image2-3-5-5.png" width="70%" align="center"></p>
+
+Configurar los siguentes valores:
+* Name: `FGT_IPBAN`
+* Alert: (Seleccionar del listado la acción configurada en el [paso 1](#paso-1-configuración-de-la-acción) `FGT_IPBAN`)
+
+<p align="center"><img src="images/image2-3-5-6.png" width="70%" align="center"></p>
+
+Finalmente guardamos la configuración dandole a ***Ok***
+
+> [!NOTE]
+> Recuerda que en el punto [2.3.2](#232-configuración-de-action) y [2.3.3](#233-asignación-de-action) asociamos la acción de bloquear una IP por 100s a un profile de WAF, este será el que detecte y lance el trigger de banear IP, al detectar un ataque de *SQL injection*. 
+
 ### 2.3.6 Comprobación de baneo de IP
-Lanza un ataque de inyección de SQL sobre la URL de tu aplicación y comprueba a nivel de FortiGate como tu IP publica se establece como "IP Banned".
+En este punto vamos a lanzar un ataque de tipo SQL injection y vamos a verificar como se realiza el bloqueo de la IP en el FG. Para ello lanzaremos el siguiente ataque sobre nuestra aplicación desplegada:
+
+```sh
+curl "http://<IP_PUBLICA_DEL_SERVICIO>:31000/vulnerabilities/sqli/?id=Hello+%27+or+%271%27%3D%271%27+union+select+user+%2C+password+from+users+%23&Submit=Submit#" -v -k
+```
+Accede a tu FortiGate e ir a ***Dashboard > Quarentine Monitor*** comprobar como aparece vuestra IP Pública y tratar de acceder a la aplicación via Web, verificar que no tenéis acceso durante 100 segundos.
 
 ## Laboratorio completado
 Una vez concluido este laboratorio es hora de Pasar al laboratorio 3: [FortiWeb](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiWeb)
