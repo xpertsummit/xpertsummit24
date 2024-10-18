@@ -212,6 +212,22 @@ Accede a tu aplicación DVWA que has dado de alta en FortiWeb Cloud en pasos ant
 
 ¿Qué pasa si vuelves a lanzar los mismos ataques pero activando el modo bloqueo en FortiWeb Cloud?
 
+### 2.2.7 Credential Stuffing
+
+El ataque de credential stuffing es una técnica utilizada por ciberdelincuentes para intentar obtener acceso no autorizado a cuentas de usuarios. Este tipo de ataque se basa en el hecho de que muchas personas reutilizan sus credenciales, como nombres de usuario y contraseñas, en múltiples servicios.
+
+El proceso típico de un ataque de credential stuffing implica lo siguiente:
+
+   1. ***Recopilación*** de credenciales: Los ciberdelincuentes obtienen grandes cantidades de nombres de usuario y contraseñas que han sido previamente filtrados o comprometidos. Estas credenciales filtradas se pueden encontrar en foros de hacking, mercados clandestinos en la deepweb u otras fuentes.
+
+   2. ***Automatización*** del ataque: Utilizando herramientas automatizadas, los atacantes prueban estas credenciales filtradas contra diversas plataformas en línea, como sitios web, servicios de correo electrónico o redes sociales. El objetivo es encontrar combinaciones de nombre de usuario y contraseña que coincidan con las cuentas de los usuarios comprometidos.
+
+   3. ***Acceso no autorizado***: Si el ataque tiene éxito y se encuentra una combinación válida de credenciales, los ciberdelincuentes pueden obtener acceso no autorizado a la cuenta afectada. Dependiendo de la naturaleza del ataque, podrían robar información personal, realizar acciones maliciosas en nombre del usuario o comprometer aún más la seguridad de la cuenta.
+
+Para protegerse contra este tipo de ataques mediante FortiWeb Cloud, lo podemos hacer activando la protección frente a Credential Stuffing para ello lo primero que tenemos que hacer es activar el módulo de Account Takeover en “Add modules”:
+
+<p align="center"><img src="images/image-2-2-7-1.png" width="50%"></img></p>
+
 ## 2.3 Observabilidad en FortiWeb
 
 Una de las caracteristicas principales de FortiWeb Cloud, es [Threats Analytics](https://docs.fortinet.com/document/fortiweb-cloud/24.2.0/user-guide/920966/threat-analytics), que utiliza algoritmos de aprendizaje automático para identificar patrones de ataque en todos los activos de tu aplicación y los agrupa en incidentes de seguridad, asignándoles una gravedad. Ayuda a distinguir las amenazas reales de las alertas informativas y los falsos positivos, permitiéndote concentrarte en las amenazas que son importantes.
