@@ -3,10 +3,10 @@
 En este laboratorio llevaremos a cabo las siguientes tareas:
 
 - Creación de una nueva aplicación en FortiWeb Cloud con origen la aplicación web (DVWA) desplegada para cada usuario 
-- Creación de una nueva aplicación en FortiWeb Cloud con origen la API (swagger pet store API) desplegada para cada usuario (opcional)
+- Creación de una nueva aplicación en FortiWeb Cloud con origen la API (Swagger Pet Store API) desplegada para cada usuario (opcional)
 - Añadiremos los perfiles de seguridad necesarios para proteger la aplicación Web y la API publicadas
 - Creación de los FQDN asociados a cada aplicación para apuntar a la entrada de FortiWeb Cloud correspondiente
-- Pruebas de carga contra FortiWeb para que aprenda los patrones de tráfico pueda aplicar protección avanzada no basada en firmas, mediante ML
+- Pruebas de carga contra FortiWeb para que aprenda los patrones de tráfico y pueda aplicar protección avanzada no basada en firmas, sino mediante ML
 - Ejercicios de RedTeam para probar la eficacia de la protección
 
 ## 1. Conexión al servicio de FortiWeb Cloud
@@ -30,21 +30,21 @@ Solicitud de token si la cuenta ya está validada:
 <p align="center"><img src="images/image1-5.png" width="50%" align="center"></p>
 
 ## 2. Creación aplicación portal Web (DVWA)
-- Comprueba que tu aplicación es accesible desde Internet. Puedes encontrar la url a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > dvwa_url_
-- La creación de una nueva aplicación en FortiWeb Cloud es bastante sencilla. En este laboratorio realizaremos el alta via GUI en el portal, pero se puede automatizar realizando peticiones a la API del servicio. [FortiWeb Cloud API reference](http://www.fortiweb-cloud.com/apidoc/api.html)
+- Comprueba que tu aplicación es accesible desde Internet. Puedes encontrar la URL a la misma en los datos del laboratorio: _Acceso a tus aplicaciones > dvwa_url_
+- La creación de una nueva aplicación en FortiWeb Cloud es bastante sencilla. En este laboratorio realizaremos el alta vía GUI en el portal, pero se puede automatizar realizando peticiones a la API del servicio. [FortiWeb Cloud API reference](http://www.fortiweb-cloud.com/apidoc/api.html)
 - En el menú de la izquierda seleccionaremos `Global > Applications`
-- Dentro de la sección Aplicaciones, clicaremos en `ADD APPLICATION` para arrancar el wizard de alta de la aplicación.
+- Dentro de la sección Aplicaciones, hacemos click en `ADD APPLICATION` para arrancar el Wizard de alta de la aplicación.
 
 <p align="center"><img src="images/image2-1.png" width="70%" align="center"></p>
 
-- Wizard step 1: Nombre de aplicación y dominio
+- Wizard paso 1: Nombre de aplicación y dominio
 
     * **Web Application Name**: `user_id`-dvwa (Usuario FortiCloud asignado, ejemplo: fortixpert0-dvwa) - este valor no es más que un identificador dentro del portal para organizar las diferentes aplicaciones
     * **Domain Name**: `user_id`-dvwa.fortidemoscloud.com (ejemplo: fortixpert0-dvwa.fortidemoscloud.com) - este valor es el que va a determinar que FQDN va a tener nuestra aplicación y que posteriormente a nivel DNS redirigiremos a FortiWeb Cloud
 
 <p align="center"><img src="images/image2-2.png" width="70%" align="center"></p>
 
-- Wizard step 2: Protocolo, puertos e IP origen del servidor
+- Wizard paso 2: Protocolo, puertos e IP origen del servidor
   
     * **Services allowed**: HTTP y HTTPS (FWB Cloud se apoya en Let's Encrypt o en certificados propios del cliente para asignar el certificado a la aplicación de forma automática)
     * **IP Address**: (IP pública de la aplicación, ejemplo: dvwa_url  = http://***15.188.151.180***:31000)
@@ -61,14 +61,14 @@ No olvides testear el servidor para comprobar la correcta conexión entre FortiW
 
 <p align="center"><img src="images/image2-4.png" width="70%" align="center"></p>
 
-- Wizard step 3: CDN
+- Wizard paso 3: CDN
   
     * **NO habilitaremos** servicios de CDN
     * La plataforma nos ofrecerá como ubicación para nuestra instancia la región más cercana a nuestra aplicación (para el workshop usamos las regiones de Irlanda, Londres y París)
 
 <p align="center"><img src="images/image2-5.png" width="70%" align="center"></p>
 
-- Wizard step 4: Habilitar modo bloqueo y asignar template a la aplicación
+- Wizard paso 4: Habilitar modo bloqueo y asignar template a la aplicación
   
     * Enable Block mode: ON (habilitamos la protección)
     * Template: `dvwa-hol-template` (selecionamos este template en el desplegable)
@@ -78,7 +78,7 @@ No olvides testear el servidor para comprobar la correcta conexión entre FortiW
 
 - Completado:
   
-    * El resultado es un nuevo FQDN que genera el servicio de FortiWeb Cloud para acceder a nuestra aplicación de forma segura a través del scrubbing center correspondiente simplemente redirigiendo el tráfico a nivel DNS.
+    * El resultado es un nuevo FQDN que genera el servicio de FortiWeb Cloud para acceder a nuestra aplicación de forma segura a través del _Scrubbing Center_ correspondiente simplemente redirigiendo el tráfico a nivel DNS.
     * Desde el nuevo FQDN podremos acceder a nuestra aplicación a través de FortiWeb Cloud.
 
 > [!TIP]
@@ -86,7 +86,7 @@ Copiar el nuevo FQDN para utilizar en el siguiente punto donde modificaremos los
 
 <p align="center"><img src="images/image2-7.png" width="70%" align="center"></p>
 
-- En el menú general de aplicaciones podremos ver cómo FortiWeb Cloud de forma automática ha seleccionado el centro de limpieza de FortiWeb Cloud más cercano a la aplicación y en el mismo Cloud Provider. A continuación se facilita un listado con los diferentes scrubbing centers disponibles a día de hoy ([FortiWeb Cloud scrubbing centers](https://docs.fortinet.com/document/fortiweb-cloud/24.2.0/user-guide/847410/restricting-direct-traffic-allowing-fortiweb-cloud-ip-addresses))
+- En el menú general de aplicaciones podremos ver cómo FortiWeb Cloud de forma automática ha seleccionado el _Scrubbing Center_ de FortiWeb Cloud más cercano a la aplicación y en el mismo Cloud Provider. A continuación se facilita un listado con los diferentes _Scrubbing Center_ disponibles a día de hoy ([FortiWeb Cloud scrubbing centers](https://docs.fortinet.com/document/fortiweb-cloud/24.2.0/user-guide/847410/restricting-direct-traffic-allowing-fortiweb-cloud-ip-addresses))
 
 <p align="center"><img src="images/image2-8.png" width="70%" align="center"></p>
 
@@ -335,7 +335,7 @@ Por defecto, el esquema aprendido deja la protección en standby, de forma que l
 
 ![img-3-2-4.png](images/img-3-2-4.png)
 
-- Dentro de la customización del API Path aprendido, entre otras cosas podemos modificar el comportamiento de protección, seleccionandolo en el desplegable de arriba a la derecha. 
+- Dentro de la customización del API Path aprendido, entre otras cosas podemos modificar el comportamiento de protección, seleccionándolo en el desplegable de arriba a la derecha. 
 
 ![img-3-2-5.png](images/img-3-2-5.png)
 
@@ -400,6 +400,6 @@ curl -v -X 'POST' 'https://fortixpert0-api.fortidemoscloud.com/api/pet' -H 'acce
 ```
 
 ## Laboratorio completado
-Una vez concluido este laboratorio es hora de Pasar al laboratorio 4: [FortiDAST](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiDAST)
+Una vez concluído este laboratorio es hora de pasar al laboratorio 4: [FortiDAST](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiDAST)
 
 
