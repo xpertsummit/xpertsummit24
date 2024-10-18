@@ -422,6 +422,10 @@ En el apartado de Monitorización, punto [1.2.3](#123-monitorización-de-un-virt
 
 #### Paso 2. Comprobación de resultados.
 
+Una vez esperado unos 5 minutos irémos a ver que recomendaciones nos hace el Adaptive Learning para nuestra aplicaciones con la muestra de tráfico que hemos genrado. Para verlo tenemos que ir a ***Web Application Firewall > Adaptive Learning View*** , donde veremos que hemos tenido Hits y el arbol de nuestra página
+
+<p align="center"><img src="images/image2-2-0-1.png" width="70%" align="center"></p>
+
 ### 2.2 OWASP Top 10 Compliance.
 Esta funcionalidad está relacionada con la visibilidad y el compliance de nuestros servicios balanceados por el FortiADC y nos proporcionará el grado de cumplimiento que tienen nuestros perfiles WAF frente a las amenazas de OWASP Top 10 y, en caso de no estar lo suficientemente protegido, que políticas aplicar y que cambios en el perfil son necesarios para llegar a alcanzar el nivel de cumplimiento frente a los diferentes ataques de OWASP.
 
