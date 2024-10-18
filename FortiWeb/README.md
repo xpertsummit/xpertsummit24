@@ -226,7 +226,7 @@ El proceso típico de un ataque de credential stuffing implica lo siguiente:
 
 Para protegerse contra este tipo de ataques mediante FortiWeb Cloud, lo podemos hacer activando la protección frente a Credential Stuffing para ello lo primero que tenemos que hacer es activar el módulo de Account Takeover en “Add modules”:
 
-<p align="center"><img src="images/image-2-2-7-1.png" width="50%"></img></p>
+<p align="center"><img src="images/image2-2-7-1.png" width="50%"></img></p>
 
 ## 2.3 Observabilidad en FortiWeb
 
