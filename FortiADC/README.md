@@ -337,7 +337,19 @@ Para generar tráfico random contra la aplicación y empezar a tener logs en el 
 
 3. Una vez ejecutado el script elegiremos la opcion 1. Esta opción hará un login en DVWA y capturará tanto la SessionID como el user_token que se necesitan para hacer log
 
-<p align="center"><img src="images/image1-2-3-2.png" width="70%" align="center"></p>
+<p align="center"><img src="images/image1-2-3-2.png" align="center"></p>
+
+<p align="center"><img src="images/image1-2-3-3.png" align="center"></p>
+
+4. Después aparecerá un nuevo menú, con mas opciones. Entre ellas podemos activar un debug, desactivarlo, ejecutar Adaptative Learning.
+
+<p align="center"><img src="images/image1-2-3-4.png" align="center"></p>
+
+5. Para generar tráfico, sería opción 2. Y te pedirá número de repeticiones que se quiere enviar. Con 20 es suficiente.
+   
+6. Para ver el tráfico que se genera, activar antes el debug.
+
+
    
 
 > [!NOTE]
