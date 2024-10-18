@@ -337,7 +337,7 @@ Para generar tráfico random contra la aplicación y empezar a tener logs en el 
 
 3. Una vez ejecutado el script elegiremos la opcion 1. Esta opción hará un login en DVWA y capturará tanto la SessionID como el user_token que se necesitan para hacer log
 
-<p align="center"><img src="images/image1-2-3-2.png" width="70%" align="center"></p>
+<p align="center"><img src="images/image1-2-3-2.png" align="center"></p>
    
 
 > [!NOTE]
