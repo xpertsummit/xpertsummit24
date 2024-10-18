@@ -140,7 +140,7 @@ Para actualizar el valor del objeto dinámico, puedes hacerlo directamente desde
 Selecciona en el filtro del objeto dinámico el TAG correcto con contenga tu nombre de usuario, que será algo como esto: `r1-user-1` y que puedes encontrar en el portal del laboratorio en la sección **Usuario de laboratorio** `aws_user_id`
 
 ```sh
-Tag.Owner=r1-user-1
+Tag.Owner=r1-user1
 ```
 <p align="center"><img src="images/image1-3-2.png" width="70%" align="center"></p>
 
@@ -194,6 +194,9 @@ Se observa como el prefix `10.10.1.0/24` se anuncia con un AS path `65000` desde
 - Comprobar que se levanta un nuevo túnel de forma dinámica. 
 
 <p align="center"><img src="images/image1-5-1.png" width="70%" align="center"></p>
+
+> [!NOTE]
+> Ten en cuenta que sólo se permite el tráfico entre el servidor de laboratorio y tu servidor por políticas en tu fortigate, el tráfico desde otras redes se debe permitir para que funcione. El túnel ADVPN o *shortcut path* entre los dos spoke se levanta sin problema y cursa el tráfico. 
 
 ### 1.6 Configuración de los HUBs
 Si quieres revisar la configuración de los HUBs, HUB CPD "on-premises" clúster FGCP y el cloud con el clúster Activo-Activo FGSP y la conexiones entre los mismos, configuraciones BGP, vxlan entre clúster cloud y on-premises, integración con AWS TGW mediante Attachment Connect y túneles GRE, politicas de firewall ... puedes acceder a los mismo en modo lectura. 

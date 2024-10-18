@@ -177,7 +177,7 @@ Tras salvar la configuración podrás comprobar como FortiADC se ha conectado de
 Vuelve a configurar un nuevo *Real Server Pool* para la aplicación de API, los datos serían los mismos que en paso anterior, lo único que debes cambiar es el nombre y seleccionar el servicio 
 
 Configura los siguientes valores:
-* Name: RSP_sdn_k8s_API
+* Name: RSP_SDN_K8S_API
 * Type: Dynamic
 * SDN Connector: (Seleccionar el conector que acabamos de crear)
 * Service: (Seleccionar el servicio de la aplicación DVWA, **K8S_ServiceName=swiagger-petstore**)
