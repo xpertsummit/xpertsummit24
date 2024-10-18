@@ -426,6 +426,23 @@ Una vez esperado unos 5 minutos irémos a ver que recomendaciones nos hace el Ad
 
 <p align="center"><img src="images/image2-2-0-1.png" width="70%" align="center"></p>
 
+Pinchamos en la pestana ***Recommendation*** y nos apareceran dos recomendaciones:
+	1. Attacks Signature
+ 	2. Bot Detection
+
+<p align="center"><img src="images/image2-2-0-2.png" width="70%" align="center"></p>
+
+  
+
+  En ambas, tenemos que aceptarlas haciendo doble click sobre el icono final. Y ***Acept***
+
+  <p align="center"><img src="images/image2-2-0-3.png" width="70%" align="center"></p>
+
+<p align="center"><img src="images/image2-2-0-4.png" width="70%" align="center"></p>
+
+Una vez aceptadas podremos comprobar que en nuestro perfil de waf anterior mente creado ***WAF***, nos apareceran asignado un Web Attack Signature y Bot Detection con nombre: ***AL_GEN_2024XXXXXXXXX***
+
+
 ### 2.2 OWASP Top 10 Compliance.
 Esta funcionalidad está relacionada con la visibilidad y el compliance de nuestros servicios balanceados por el FortiADC y nos proporcionará el grado de cumplimiento que tienen nuestros perfiles WAF frente a las amenazas de OWASP Top 10 y, en caso de no estar lo suficientemente protegido, que políticas aplicar y que cambios en el perfil son necesarios para llegar a alcanzar el nivel de cumplimiento frente a los diferentes ataques de OWASP.
 
