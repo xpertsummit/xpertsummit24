@@ -382,7 +382,7 @@ Configura los siguientes valores:
 * Sampling Rate: `100` (Es el porcentaje en % de muestras que va a utilizar para construir las recomendaciones)
 * False Positive Threshold: `2` (Ver nota)
 * Least Learning Timer: `5` (Periodo de tiempo de aprendizaje en minutos)
-* Action: Alert
+* Action: Deny
 
 No olvides guardar.
 
