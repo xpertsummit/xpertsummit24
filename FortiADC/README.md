@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # [FortiADC](./)
 @NetDevOps, @Kubernetes, @WAF @disponibilidad global
 
