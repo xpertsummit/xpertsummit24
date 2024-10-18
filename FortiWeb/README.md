@@ -241,7 +241,7 @@ Configura los siguientes valores:
 
 * No nos olvidemos en dar a "***SAVE***"
 
-![image-2-2-7-2.png](images/image-2-2-7-2.png)
+![image2-2-7-2.png](images/image2-2-7-2.png)
 ## 2.3 Observabilidad en FortiWeb
 
 Una de las caracteristicas principales de FortiWeb Cloud, es [Threats Analytics](https://docs.fortinet.com/document/fortiweb-cloud/24.2.0/user-guide/920966/threat-analytics), que utiliza algoritmos de aprendizaje automático para identificar patrones de ataque en todos los activos de tu aplicación y los agrupa en incidentes de seguridad, asignándoles una gravedad. Ayuda a distinguir las amenazas reales de las alertas informativas y los falsos positivos, permitiéndote concentrarte en las amenazas que son importantes.
