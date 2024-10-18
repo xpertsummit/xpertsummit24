@@ -330,10 +330,15 @@ Para obtener un mayor detalle a nivel de logs, es posible configurar los niveles
 * Security Category: (activa el check *Enable All*)
 
 #### Generación de tráfico contra la aplicación
-Para generar tráfico random contra la aplicación y empezar a tener logs en el FortiADC, hemos prepardo un script que puedes lanzar para generar este tráfico, [user_traffic.sh](./scripts/user_traffic.sh). (Si copias el script en tu PC, MAC o Linux deberás darle permisos de ejecución antes de ejecutarlo) 
+Para generar tráfico random contra la aplicación y empezar a tener logs en el FortiADC, hemos prepardo un script que puedes lanzar para generar este tráfico, [Dvwa_XP24.sh](./scripts/Dvwa_XP24.sh). (Si copias el script en tu PC, MAC o Linux deberás darle permisos de ejecución antes de ejecutarlo) 
 
-1. chmod + x ./user_traffic.sh
-2. ./user_traffic.sh `<fortiadc_ip_publica>` `<puerto>`
+1. chmod + x ./Dvwa_XP24.sh
+2. ./Dvwa_XP24.sh `<fortiadc_ip_publica>` `<puerto>`
+
+3. Una vez ejecutado el script elegiremos la opcion 1. Esta opción hará un login en DVWA y capturará tanto la SessionID como el user_token que se necesitan para hacer log
+
+<p align="center"><img src="images/image1-2-3-2.png" width="70%" align="center"></p>
+   
 
 > [!NOTE]
 > Si no te es posible ejecutar el script en tu PC, no te preocupes y sigue con los siguentes pasos, desde el laboratorio estamos lanzando tráfico contra vuestras aplicaciones, por lo que deben aparecer logs en el momento en que la aplicación sea accesible. 
