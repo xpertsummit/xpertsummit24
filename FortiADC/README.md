@@ -122,9 +122,10 @@ Finalmente, en la sección de *Real Server Pool*, deben aparecer los dos grupos 
 
 <p align="center"><img src="images/image1-1-1-5.png" width="70%" align="center"></p>
 
-Si no quieres probar otro método de configuración de Real Server y Real Server pool configura el Virtual Server haciendo clic en este [link](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC#12-configuracion-del-virtual-sever-vs)
+> [!NOTE]
+> La creación del *Real Server Pool* mediante conector externo Kubernetes es opcional, si vas mal de tiempo pasa al [punto 1.2](#12-configuracion-del-virtual-sever-vs)
 
-#### 1.1.2 Configuración de Real Server mediante conector externo Kubernetes.
+#### 1.1.2 Configuración de Real Serve Pool mediante conector externo Kubernetes.
 Con esta opción, integramos el FortiADC con el servicio de Kubernetes que aloja todos los servicios gestionados por el grupo responsable de la aplicación, por medio de un External Connector del Security Fabric. De esta forma en el FortiADC sólo se configurará el *Real Server Pool* y el *Virtual Server*. Los *Real Servers* correspondientes al entorno Kubernetes, se descubrirán mediante el conector y se configurarán de forma automática al pool de servidores como *Real Servers*, sin que tengamos que configurar estos. De esta forma, el administrador de FortiADC, no tiene preocuparse de la infraestructura de servidores que alojan el clúster de Kubernetes. 
 
 #### Paso 1. Creación del conector al clúster Kubernetes.
@@ -190,7 +191,8 @@ Configura los siguientes valores:
 
 Vuelve a comprobar que los *Real Severs* correspondientes a este servicio se han creado correctamente y en el puerto correcto, en este caso el `31001`.
 
-Si no quieres probar otro método de configuración de Real Server y Real Server pool configura el Virtual Server haciendo clic en este [link](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC#12-configuracion-del-virtual-sever-vs)
+> [!NOTE]
+> La creación del *Real Server Pool* mediante conector externo cloud AWS es opcional, si vas mal de tiempo pasa al [punto 1.2](#12-configuracion-del-virtual-sever-vs)
 
 #### 1.1.3 Configuración de Real Server mediante conector externo AWS.
 Con esta opción, integraremos el FortiADC con el servicio de Amazon Web Services (AWS) que aloja  los servicios gestionados por el grupo responsable de la aplicación por medio de un External Connector del Security Fabric. De esta forma en el FortiADC sólo se configurará el *Real Server Pool* y el *Virtual Server*. Los *Real Servers* correspondientes al entorno Cloud de AWS, se descubrirán mediante el conector y se configurarán de forma automática al pool de servidores como *Real Servers*, sin que tengamos que configurar estos. De esta forma, el administrador de FortiADC no tiene preocuparse de la infraestructura de servidores que alojan el backend de la aplicación. 
@@ -251,8 +253,6 @@ Configura los siguientes valores:
 
 <p align="center"><img src="images/image1-1-3-6.png" width="70%" align="center"></p>
 
-Si no quieres probar otro método de configuración de Real Server y Real Server pool configura el Virtual Server haciendo clic en este [link](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC#12-configuracion-del-virtual-sever-vs)
-
 ### 1.2 Configuracion del Virtual Sever (VS). 
 En el apartado anterior hemos visto como dar de alta los grupos de servidores sobre los que FortiADC enviará el tráfico de aplicación en función de diferentes parámetros, para este laboratorio simplemente por disponibilidad. En un escenario real o de producción, se podrán escoger los criterios de balanceo que se consideren oportunos. [Métodos de balanceo en FortiADC](https://docs.fortinet.com/index.php/document/fortiadc/7.4.4/handbook/201314/configuring-load-balancing-lb-methods)
 
@@ -277,7 +277,6 @@ Configura los siguientes valores:
 * To: `<IP de NAT para tu FortiADC>`
 
 <p align="center"><img src="images/image1-2-1-3.png" width="70%" align="center"></p>
-
 
 #### 1.2.2 Configuración de un Virtual Server (VS)
 Una vez configurado el pool de servidores que comparten un mismo servicio es necesario crear un *Virtual Server* como punto de entrada público al servicio. El servidor virtual recibirá el tráfico y lo distribuirá entre los servidores backend.
@@ -340,23 +339,18 @@ Para generar tráfico random contra la aplicación y empezar a tener logs en el 
 
 1. chmod + x ./Dvwa_XP24.sh
 2. ./Dvwa_XP24.sh `<fortiadc_ip_publica>` `<puerto>`
-
 3. Una vez ejecutado el script elegiremos la opcion 1. Esta opción hará un login en DVWA y capturará tanto la SessionID como el user_token que se necesitan para hacer log
 
-<p align="center"><img src="images/image1-2-3-2.png" align="center"></p>
+<p align="center"><img src="images/image1-2-3-2.png" width="70%" align="center"></p>
 
-<p align="center"><img src="images/image1-2-3-3.png" align="center"></p>
+<p align="center"><img src="images/image1-2-3-3.png" width="70%" align="center"></p>
 
 4. Después aparecerá un nuevo menú, con mas opciones. Entre ellas podemos activar un debug, desactivarlo, ejecutar Adaptative Learning.
 
-<p align="center"><img src="images/image1-2-3-4.png" align="center"></p>
+<p align="center"><img src="images/image1-2-3-4.png" width="70%" align="center"></p>
 
 5. Para generar tráfico, sería opción 2. Y te pedirá número de repeticiones que se quiere enviar. Con 20 es suficiente.
-   
 6. Para ver el tráfico que se genera, activar antes el debug.
-
-
-   
 
 > [!NOTE]
 > Si no te es posible ejecutar el script en tu PC, no te preocupes y sigue con los siguentes pasos, desde el laboratorio estamos lanzando tráfico contra vuestras aplicaciones, por lo que deben aparecer logs en el momento en que la aplicación sea accesible. 
