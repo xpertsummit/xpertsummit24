@@ -122,6 +122,8 @@ Finalmente, en la sección de *Real Server Pool*, deben aparecer los dos grupos 
 
 <p align="center"><img src="images/image1-1-1-5.png" width="70%" align="center"></p>
 
+Si no quieres probar otro método de configuración de Real Server y Real Server pool configura el Virtual Server haciendo clic en este [link](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC#12-configuracion-del-virtual-sever-vs)
+
 #### 1.1.2 Configuración de Real Server mediante conector externo Kubernetes.
 Con esta opción, integramos el FortiADC con el servicio de Kubernetes que aloja todos los servicios gestionados por el grupo responsable de la aplicación, por medio de un External Connector del Security Fabric. De esta forma en el FortiADC sólo se configurará el *Real Server Pool* y el *Virtual Server*. Los *Real Servers* correspondientes al entorno Kubernetes, se descubrirán mediante el conector y se configurarán de forma automática al pool de servidores como *Real Servers*, sin que tengamos que configurar estos. De esta forma, el administrador de FortiADC, no tiene preocuparse de la infraestructura de servidores que alojan el clúster de Kubernetes. 
 
@@ -188,6 +190,8 @@ Configura los siguientes valores:
 
 Vuelve a comprobar que los *Real Severs* correspondientes a este servicio se han creado correctamente y en el puerto correcto, en este caso el `31001`.
 
+Si no quieres probar otro método de configuración de Real Server y Real Server pool configura el Virtual Server haciendo clic en este [link](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC#12-configuracion-del-virtual-sever-vs)
+
 #### 1.1.3 Configuración de Real Server mediante conector externo AWS.
 Con esta opción, integraremos el FortiADC con el servicio de Amazon Web Services (AWS) que aloja  los servicios gestionados por el grupo responsable de la aplicación por medio de un External Connector del Security Fabric. De esta forma en el FortiADC sólo se configurará el *Real Server Pool* y el *Virtual Server*. Los *Real Servers* correspondientes al entorno Cloud de AWS, se descubrirán mediante el conector y se configurarán de forma automática al pool de servidores como *Real Servers*, sin que tengamos que configurar estos. De esta forma, el administrador de FortiADC no tiene preocuparse de la infraestructura de servidores que alojan el backend de la aplicación. 
 
@@ -246,6 +250,8 @@ Configura los siguientes valores:
 >  Si vas a la sección de *Real Servers* podrás comprobar que se han creado de manera automática dos nuevos *Real Severs* al crear los *Real Server Pools* mediante el conector. En esta práctica sólo dispones de una instancia, pero tanto en el caso del conector Kubernetes como en el de los tags de AWS, si el número de servidores aumentara o disminuyera, se crearían o desactivarían los *Real Servers*. 
 
 <p align="center"><img src="images/image1-1-3-6.png" width="70%" align="center"></p>
+
+Si no quieres probar otro método de configuración de Real Server y Real Server pool configura el Virtual Server haciendo clic en este [link](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiADC#12-configuracion-del-virtual-sever-vs)
 
 ### 1.2 Configuracion del Virtual Sever (VS). 
 En el apartado anterior hemos visto como dar de alta los grupos de servidores sobre los que FortiADC enviará el tráfico de aplicación en función de diferentes parámetros, para este laboratorio simplemente por disponibilidad. En un escenario real o de producción, se podrán escoger los criterios de balanceo que se consideren oportunos. [Métodos de balanceo en FortiADC](https://docs.fortinet.com/index.php/document/fortiadc/7.4.4/handbook/201314/configuring-load-balancing-lb-methods)
