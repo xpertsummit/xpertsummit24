@@ -275,7 +275,10 @@ Desde los logs de ataques, es posible crear excepciones de una manera sencilla.
 
 Todas las excepciones configuradas se reflejan desde `SECURITY RULES > Known Attacks`. Si el log de la aplicación, al que estamos creando la excepción, tiene asigando un template, estas quedarán reflejadas en dicho template y será donde deberiamos resetearlas para volver para la configuración inicial del mismo.
 
-### 3 Creación de aplicación API (Swagger Pet Store) (OPCIONAL)
+> [!NOTE]
+> La creación de la aplicación API es opcional, si vas mal de tiempo puedes pasar al laboratorio 4: [FortiDAST](https://github.com/xpertsummit/xpertsummit24/tree/main/FortiDAST)
+
+### 3 Creación de aplicación API (Swagger Pet Store)
 
 > [!NOTE]
 > El alta de la aplicación de API es opcional para este laboratorio.
