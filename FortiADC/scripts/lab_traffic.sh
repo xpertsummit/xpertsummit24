@@ -7,7 +7,7 @@
 ####################################################################
 
 # Variables
-port="31000"
+port="31010"
 
 # Define a list of publics IP to check
 public_ips=(
@@ -63,15 +63,17 @@ while true; do
             random_user_agent="${user_agents[$RANDOM % ${#user_agents[@]}]}"
 
             # Make the HTTP request with curl, including the X-Forwarded-For header
-            curl -H "X-Forwarded-For: $random_ip" -A "$random_user_agent" -s -o /dev/null "http://$public_ip:$port$path"
+            curl --max-time 1 -H "X-Forwarded-For: $random_ip" -A "$random_user_agent" -s -o /dev/null "http://$public_ip:$port$path"
 
             # Check the exit status of curl to see if the request was successful
             if [ $? -ne 0 ]; then
-                echo "Error: Unable to connect to http://$public_ip:$port$path"
+                echo "Error: Unable to connect to $public_ip$path"
+                # Skip to the next random IP (break out of the URL path loop)
+                break
             fi
 
             # Optional: Sleep for 1 second between requests to avoid overwhelming the server
-            sleep 1
+            #sleep 1
         done
     done
 done
