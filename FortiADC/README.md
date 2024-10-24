@@ -330,6 +330,7 @@ Otra sección interesante para monitorizar la aplicación dentro de ***FortiView
 
 Para obtener un mayor detalle a nivel de logs, es posible configurar los niveles de logeo y tipo que queremos registrar. Para ello, en el panel izquierdo, ve a ***Log & Report > Log Setting*** y, en la pestaña ***Local Log***, activa los siguientes parámetros:
 * Event: (enable)
+* Traffic: (enable)
 * Event Category: (activa el check *Enable All*)
 * Security: (enable)
 * Security Category: (activa el check *Enable All*)
