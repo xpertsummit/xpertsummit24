@@ -1,11 +1,10 @@
-##!/bin/bash
+#!/bin/bash
 #
+# Script para generación de tráfico random contra una aplicación DVWA
+# - El script es capaz de establecer la cookie de sesión contra el servidor
+# - Tiene un menú contextual para realizar todos los pasos
 #
-#
-#
-#
-#
-
+####################################################################
 
 # Credenciales de login
 username="admin"
