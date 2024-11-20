@@ -419,7 +419,7 @@ No olvides guardar.
 #### 2.1.4 Test sobre la aplicación y comprobación de resultados.
 
 #### Paso 1. Generación de tráfico.
-En el apartado de Monitorización, punto [1.2.3](#123-monitorización-de-un-virtual-server-vs) se ejecutó el script *user_traffic.sh* para generar tráfico random sobre la aplicación, puedes volver a ejecutarlo y esperar al menos 5 minutos antes de continuar.
+En el apartado de Monitorización, punto [1.2.3](#123-monitorización-de-un-virtual-server-vs) se ejecutó el script *Dvwa_XP24.sh* para generar tráfico random sobre la aplicación, puedes volver a ejecutarlo y esperar al menos 5 minutos antes de continuar.
 
 #### Paso 2. Comprobación de resultados.
 
